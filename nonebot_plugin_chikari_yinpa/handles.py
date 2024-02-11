@@ -34,13 +34,13 @@ class yinpa_Handles():
         uid: str=event.get_user_id()
         if data[uid]["last_sign_in_time"] < (int)(time()/86400):
             DHandles.data_set(uid,"last_sign_in_time",(int)(time()/86400))
-            d_pl = Utils.dice(100,(int)(data[uid]["penis_length"]) ^ 1)
-            d_vd = Utils.dice(100,(int)(data[uid]["vagina_depth"]) ^ 2)
-            d_m = Utils.dice(100,data[uid]["money"] ^ 3)
-            await matcher.send(f'{data[uid]["name"]}签到成功\n长度增加：{data[uid]["penis_length"]} + (1d100 / 100) = {data[uid]["penis_length"]} + ({d_pl} / 100) = {round(data[uid]["penis_length"] + d_pl / 100,2)}\n深度增加：{data[uid]["vagina_depth"]} + (1d100 / 100) = {data[uid]["vagina_depth"]} + ({d_vd} / 100) = {round(data[uid]["vagina_depth"] + d_vd / 100,2)}\n金钱增加：{data[uid]["money"]} + 1d100 = {data[uid]["money"]} + {d_m} = {data[uid]["money"] + d_m}')
-            DHandles.data_set(uid,"penis_length",round(data[uid]["penis_length"] + d_pl / 100,2))
-            DHandles.data_set(uid,"vagina_depth",round(data[uid]["vagina_depth"] + d_vd / 100,2))
-            DHandles.data_set(uid,"money",data[uid]["money"] + d_m)
+            d_pl = Utils.dice(100,(int)(data[uid]['penis_length']) ^ 1)
+            d_vd = Utils.dice(100,(int)(data[uid]['vagina_depth']) ^ 2)
+            d_m = Utils.dice(100,data[uid]['money'] ^ 3)
+            await matcher.send(f'{data[uid]['name']}签到成功\n长度增加：{data[uid]['penis_length']} + (1d100 / 100) = {data[uid]['penis_length']} + ({d_pl} / 100) = {round(data[uid]['penis_length'] + d_pl / 100,2)}\n深度增加：{data[uid]['vagina_depth']} + (1d100 / 100) = {data[uid]['vagina_depth']} + ({d_vd} / 100) = {round(data[uid]['vagina_depth'] + d_vd / 100,2)}\n金钱增加：{data[uid]['money']} + 1d100 = {data[uid]['money']} + {d_m} = {data[uid]['money'] + d_m}')
+            DHandles.data_set(uid,'penis_length',round(data[uid]['penis_length'] + d_pl / 100,2))
+            DHandles.data_set(uid,'vagina_depth',round(data[uid]['vagina_depth'] + d_vd / 100,2))
+            DHandles.data_set(uid,'money',data[uid]['money'] + d_m)
             await matcher.finish()
         else:
             await matcher.finish("你今天已经打过卡了呢~")
@@ -66,19 +66,19 @@ class yinpa_Handles():
         if Utils.find_user_name(name):
             await matcher.finish("已经有人使用这个昵称了！")
         DHandles.user_add(uid,{
-            "name":name,
-            "species":species,
-            "sex_value":plugin_config.chikari_yinpa_initial_sex_value,
-            "penis_length":plugin_config.chikari_yinpa_initial_penis_length,
-            "vagina_depth":plugin_config.chikari_yinpa_initial_vagina_depth,
-            "strength":dicts.species_initial_ability[species][0][0] + Utils.dice(dicts.species_initial_ability[species][0][1],species ^ 4),
-            "constitution":dicts.species_initial_ability[species][1][0] + Utils.dice(dicts.species_initial_ability[species][1][1],species ^ 5),
-            "technique":dicts.species_initial_ability[species][2][0] + Utils.dice(dicts.species_initial_ability[species][2][1],species ^ 6),
-            "volition":dicts.species_initial_ability[species][3][0] + Utils.dice(dicts.species_initial_ability[species][3][1],species ^ 7),
-            "intelligence":dicts.species_initial_ability[species][4][0] + Utils.dice(dicts.species_initial_ability[species][4][1],species ^ 8),
-            "charm":dicts.species_initial_ability[species][5][0] + Utils.dice(dicts.species_initial_ability[species][5][1],species ^ 9),
-            "money":plugin_config.chikari_yinpa_initial_money,
-            "state":[],
+            'name':name,
+            'species':species,
+            'sex_value':plugin_config.chikari_yinpa_initial_sex_value,
+            'penis_length':plugin_config.chikari_yinpa_initial_penis_length,
+            'vagina_depth':plugin_config.chikari_yinpa_initial_vagina_depth,
+            'strength':dicts.species_initial_ability[species][0][0] + Utils.dice(dicts.species_initial_ability[species][0][1],species ^ 4),
+            'constitution':dicts.species_initial_ability[species][1][0] + Utils.dice(dicts.species_initial_ability[species][1][1],species ^ 5),
+            'technique':dicts.species_initial_ability[species][2][0] + Utils.dice(dicts.species_initial_ability[species][2][1],species ^ 6),
+            'volition':dicts.species_initial_ability[species][3][0] + Utils.dice(dicts.species_initial_ability[species][3][1],species ^ 7),
+            'intelligence':dicts.species_initial_ability[species][4][0] + Utils.dice(dicts.species_initial_ability[species][4][1],species ^ 8),
+            'charm':dicts.species_initial_ability[species][5][0] + Utils.dice(dicts.species_initial_ability[species][5][1],species ^ 9),
+            'money':plugin_config.chikari_yinpa_initial_money,
+            'state':[],
             "passive_times":0,
             "active_times":0,
             "last_sign_in_time":0,
@@ -111,7 +111,7 @@ class yinpa_Handles():
             DHandles.data_set(uid,"md5",obj.hexdigest())
             await matcher.finish(f"警告：这将清除你的所有银趴数据！\n请输入 /yinpa_leave {obj.hexdigest()} 以完成操作")
         else:
-            name = data[uid]["name"]
+            name = data[uid]['name']
             DHandles.user_remove(uid)
             await matcher.finish(f"离开银趴成功。\n大家会记住你的，{name}")
 
@@ -126,7 +126,7 @@ class yinpa_Handles():
             help_key[0] = dicts.help_aliases[help_key[0]]
         if help_key[0] == "all":
             await matcher.finish(MessageSegment.image(Utils.text_to_image("可用帮助：\n" + "\n".join(list(dicts.yinpa_help_dict.keys())))))
-        elif help_key[0] == "species":
+        elif help_key[0] == 'species':
             if len(help_key) >= 2 and dicts.species_help.get(help_key[1]):
                 await matcher.finish(MessageSegment.image(Utils.text_to_image(dicts.species_help[help_key[1]])))
             elif len(help_key) >= 2 and dicts.species_dict.get(int(help_key[1])):
@@ -146,7 +146,7 @@ class yinpa_Handles():
                 for i in list(dicts.skill_dict.keys()):
                     str += f"{i}：{dicts.skill_dict[i]}\n"
                 await matcher.finish("错误：该技能不存在\n可用技能：\n" + str + "\n输入/yinpa_help skill [技能名或技能ID] 以查看技能描述")
-        elif help_key[0] == "state":
+        elif help_key[0] == 'state':
             if len(help_key) >= 2 and dicts.state_help.get(help_key[1]):
                 await matcher.finish(MessageSegment.image(Utils.text_to_image(dicts.state_help[help_key[1]])))
             elif len(help_key) >= 2 and dicts.state_dict.get(int(help_key[1])):
@@ -241,11 +241,11 @@ class yinpa_Handles():
         if oc:
             await matcher.finish(f"错误：操作失败！\n原因：{oc}")
         if Utils.get_state(at,2):
-            await matcher.finish(f"错误：操作失败！\n原因：你连昏迷的{data[at]["name"]}都不放过吗？")
+            await matcher.finish(f"错误：操作失败！\n原因：你连昏迷的{data[at]['name']}都不放过吗？")
         Utils.refresh_data(uid)
         Utils.refresh_data(at)
-        atk_u = Utils.get_attack_list(uid,at) + [[(int)(data[uid]["penis_length"]) * 4,f"{data[uid]["name"]}：长度"]]
-        str_u = f"{data[at]["name"]}受到的伤害：1d50"
+        atk_u = Utils.get_attack_list(uid,at) + [[(int)(data[uid]['penis_length']) * 4,f"{data[uid]['name']}：长度"]]
+        str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
             if i[0] > 0:
                 str_u += f" + 1d{int(i[0])}（{i[1]}）"
@@ -263,8 +263,8 @@ class yinpa_Handles():
                 str_u += f" - {d}"
                 res_u -= d
         str_u += f" = {res_u}\n"
-        atk_t = Utils.get_attack_list(at,uid) + [[(int)(data[at]["vagina_depth"]) * 4,f"{data[at]["name"]}：深度"]]
-        str_t = f"{data[uid]["name"]}受到的伤害：1d50"
+        atk_t = Utils.get_attack_list(at,uid) + [[(int)(data[at]['vagina_depth']) * 4,f"{data[at]['name']}：深度"]]
+        str_t = f"{data[uid]['name']}受到的伤害：1d50"
         for i in atk_t:
             if i[0] > 0:
                 str_t += f" + 1d{int(i[0])}（{i[1]}）"
@@ -294,7 +294,7 @@ class yinpa_Handles():
         rh_str_t = Utils.reduce_hp(at,res_u)
         DHandles.data_set(uid,"active_times",data[uid]["active_times"] + 1)
         DHandles.data_set(at,"passive_times",data[at]["passive_times"] + 1)
-        await matcher.finish(f"{data[uid]["name"]}透了{data[at]["name"]}\n" + str_t + "\n" + str_u + hp_str +  rh_str_u +  rh_str_t)
+        await matcher.finish(f"{data[uid]['name']}透了{data[at]['name']}\n" + str_t + "\n" + str_u + hp_str +  rh_str_u +  rh_str_t)
         
     async def yinpa_zha(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
@@ -328,11 +328,11 @@ class yinpa_Handles():
         if oc:
             await matcher.finish(f"错误：操作失败！\n原因：{oc}")
         if Utils.get_state(at,2):
-            await matcher.finish(f"错误：操作失败！\n原因：你连昏迷的{data[at]["name"]}都不放过吗？")
+            await matcher.finish(f"错误：操作失败！\n原因：你连昏迷的{data[at]['name']}都不放过吗？")
         Utils.refresh_data(uid)
         Utils.refresh_data(at)
-        atk_u = Utils.get_attack_list(uid,at) + [[(int)(data[uid]["vagina_depth"]) * 4,f"{data[uid]["name"]}：深度"]]
-        str_u = f"{data[at]["name"]}受到的伤害：1d50"
+        atk_u = Utils.get_attack_list(uid,at) + [[(int)(data[uid]['vagina_depth']) * 4,f"{data[uid]['name']}：深度"]]
+        str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
             if i[0] > 0:
                 str_u += f" + 1d{int(i[0])}（{i[1]}）"
@@ -350,8 +350,8 @@ class yinpa_Handles():
                 str_u += f" - {d}"
                 res_u -= d
         str_u += f" = {res_u}\n"
-        atk_t = Utils.get_attack_list(at,uid) + [[(int)(data[at]["penis_length"]) * 4,f"{data[at]["name"]}：长度"]]
-        str_t = f"{data[uid]["name"]}受到的伤害：1d50"
+        atk_t = Utils.get_attack_list(at,uid) + [[(int)(data[at]['penis_length']) * 4,f"{data[at]['name']}：长度"]]
+        str_t = f"{data[uid]['name']}受到的伤害：1d50"
         for i in atk_t:
             if i[0] > 0:
                 str_t += f" + 1d{int(i[0])}（{i[1]}）"
@@ -381,7 +381,7 @@ class yinpa_Handles():
         rh_str_t = Utils.reduce_hp(at,res_u)
         DHandles.data_set(uid,"active_times",data[uid]["active_times"] + 1)
         DHandles.data_set(at,"passive_times",data[at]["passive_times"] + 1)
-        await matcher.finish(f"{data[uid]["name"]}榨了{data[at]["name"]}\n" + str_t  + "\n" + str_u + hp_str + rh_str_u + rh_str_t)
+        await matcher.finish(f"{data[uid]['name']}榨了{data[at]['name']}\n" + str_t  + "\n" + str_u + hp_str + rh_str_u + rh_str_t)
         
     async def yinpa_chong(
             matcher: Matcher,event: GroupMessageEvent
@@ -395,11 +395,11 @@ class yinpa_Handles():
         Utils.refresh_data(uid)
         d = Utils.dice(100,uid)
         hp = Utils.get_value(uid,"hp")
-        pl_str = f"长度： {data[uid]["penis_length"]} → {round(data[uid]["penis_length"] + d / 100 - 0.5,2)}"
-        DHandles.data_set(uid,"penis_length",round(data[uid]["penis_length"] + d / 100 - 0.5,2))
+        pl_str = f"长度： {data[uid]['penis_length']} → {round(data[uid]['penis_length'] + d / 100 - 0.5,2)}"
+        DHandles.data_set(uid,'penis_length',round(data[uid]['penis_length'] + d / 100 - 0.5,2))
         hp_str = f"HP： {hp[0]} → {hp[0] - d}"
         rh_str = Utils.reduce_hp(uid,d)
-        await matcher.finish(f"{data[uid]["name"]}冲了一发\n" + pl_str + "\n" + hp_str + rh_str)
+        await matcher.finish(f"{data[uid]['name']}冲了一发\n" + pl_str + "\n" + hp_str + rh_str)
         
     async def yinpa_kou(
             matcher: Matcher,event: GroupMessageEvent
@@ -413,11 +413,11 @@ class yinpa_Handles():
         Utils.refresh_data(uid)
         d = Utils.dice(40,uid)
         hp = Utils.get_value(uid,"hp")
-        vd_str = f"深度： {data[uid]["vagina_depth"]} → {round(data[uid]["vagina_depth"] + d / 100,2)}"
-        DHandles.data_set(uid,"vagina_depth",round(data[uid]["vagina_depth"] + d / 100,2))
+        vd_str = f"深度： {data[uid]['vagina_depth']} → {round(data[uid]['vagina_depth'] + d / 100,2)}"
+        DHandles.data_set(uid,'vagina_depth',round(data[uid]['vagina_depth'] + d / 100,2))
         hp_str = f"HP： {hp[0]} → {hp[0] - d}"
         rh_str = Utils.reduce_hp(uid,d)
-        await matcher.finish(f"{data[uid]["name"]}扣了一次\n" + vd_str + "\n" + hp_str + rh_str)
+        await matcher.finish(f"{data[uid]['name']}扣了一次\n" + vd_str + "\n" + hp_str + rh_str)
 
     async def yinpa_shop(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
@@ -443,9 +443,9 @@ class yinpa_Handles():
                     i = (list(dicts.shop_dict.keys()))[(list(dicts.shop_dict.values())).index(i)]
                 i = int(i)
                 price += dicts.shop_price_dict[i]
-            if data[uid]["money"] < price:
-                await matcher.finish(f"错误：你的金钱并不够买这些商品！\n这些商品的总售价：{price}\n你的金钱：{data[uid]["money"]}")
-            DHandles.data_set(uid,"money",data[uid]["money"] - price)
+            if data[uid]['money'] < price:
+                await matcher.finish(f"错误：你的金钱并不够买这些商品！\n这些商品的总售价：{price}\n你的金钱：{data[uid]['money']}")
+            DHandles.data_set(uid,'money',data[uid]['money'] - price)
             str = ""
             for i in goods:
                 i = int(i)
@@ -454,8 +454,8 @@ class yinpa_Handles():
                     DHandles.state_refresh(uid,3,time() + 3600)
                     str += "获得3600秒的状态：伟哥\n"
                 elif i == 2:
-                    DHandles.data_set(uid,"penis_length",data[uid]["penis_length"] + 2)
-                    DHandles.data_set(uid,"vagina_depth",data[uid]["vagina_depth"] + 2)
+                    DHandles.data_set(uid,'penis_length',data[uid]['penis_length'] + 2)
+                    DHandles.data_set(uid,'vagina_depth',data[uid]['vagina_depth'] + 2)
                     str += "长度增加了2cm，深度增加了2cm\n"
                 elif i == 3:
                     hp = Utils.get_value(uid,"hp")
@@ -522,55 +522,55 @@ class yinpa_Handles():
         str = ""
         money = 0
         if work_key == 1:
-            money += (Utils.get_value(uid,"strength")[0] + Utils.get_value(uid,"constitution")[0]) * Utils.dice(200,(Utils.get_value(uid,"strength")[0] + Utils.get_value(uid,"constitution")[0])) / 100
+            money += (Utils.get_value(uid,'strength')[0] + Utils.get_value(uid,'constitution')[0]) * Utils.dice(200,(Utils.get_value(uid,'strength')[0] + Utils.get_value(uid,'constitution')[0])) / 100
             if money < 0:
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
         elif work_key == 2:
-            money += (Utils.get_value(uid,"technique")[0] * 0.7 + Utils.get_value(uid,"charm")[0] * 0.9) * Utils.dice(260,(Utils.get_value(uid,"technique")[0] + Utils.get_value(uid,"charm")[0])) / 100
+            money += (Utils.get_value(uid,'technique')[0] * 0.7 + Utils.get_value(uid,'charm')[0] * 0.9) * Utils.dice(260,(Utils.get_value(uid,'technique')[0] + Utils.get_value(uid,'charm')[0])) / 100
             if money < 0:
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
-            d = Utils.dice(100,Utils.get_value(uid,"volition")[0])
+            d = Utils.dice(100,Utils.get_value(uid,'volition')[0])
             str += f"意志检定：1d100 = {d} "
-            if d >= Utils.get_value(uid,"volition")[0]:
+            if d >= Utils.get_value(uid,'volition')[0]:
                 DHandles.data_set(uid,"hp_v",0)
                 d = Utils.dice(10,(int)(uid) ^ 100)
                 DHandles.state_refresh(uid,1,time() + d * 60)
-                str += f" >= {data[uid]["volition"]}\n{data[uid]["name"]}失神了！失神状态将持续1d10 = {d}分钟。（期间无法行动，技能失效。如果失神期间受到攻击，失神状态将延长一分钟。）"
+                str += f" >= {data[uid]['volition']}\n{data[uid]['name']}失神了！失神状态将持续1d10 = {d}分钟。（期间无法行动，技能失效。如果失神期间受到攻击，失神状态将延长一分钟。）"
             else:
-                str += f" < {data[uid]["volition"]}\n"
+                str += f" < {data[uid]['volition']}\n"
         elif work_key == 3:
-            money += (Utils.get_value(uid,"intelligence")[0] + Utils.get_value(uid,"charm")[0] - 60) * Utils.dice(200,(Utils.get_value(uid,"intelligence")[0] + Utils.get_value(uid,"charm")[0])) / 100
+            money += (Utils.get_value(uid,'intelligence')[0] + Utils.get_value(uid,'charm')[0] - 60) * Utils.dice(200,(Utils.get_value(uid,'intelligence')[0] + Utils.get_value(uid,'charm')[0])) / 100
             if money < 0:
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
-            d = Utils.dice(100,Utils.get_value(uid,"volition")[0])
+            d = Utils.dice(100,Utils.get_value(uid,'volition')[0])
             str += f"智慧检定：1d100 = {d} "
-            if d >= Utils.get_value(uid,"intelligence")[0]:
-                str += f" >= {data[uid]["intelligence"]}\n"
+            if d >= Utils.get_value(uid,'intelligence')[0]:
+                str += f" >= {data[uid]['intelligence']}\n"
             else:
                 money += 3 * d
-                str += f" < {data[uid]["intelligence"]}\n追加收益：{3 * d}\n"
+                str += f" < {data[uid]['intelligence']}\n追加收益：{3 * d}\n"
         elif work_key == 4:
-            money += (Utils.get_value(uid,"technique")[0] + Utils.get_value(uid,"intelligence")[0] - 100) * Utils.dice(300,(Utils.get_value(uid,"technique")[0] + Utils.get_value(uid,"intelligence")[0])) / 100
+            money += (Utils.get_value(uid,'technique')[0] + Utils.get_value(uid,'intelligence')[0] - 100) * Utils.dice(300,(Utils.get_value(uid,'technique')[0] + Utils.get_value(uid,'intelligence')[0])) / 100
             if money < 0:
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
         elif work_key == 5:
-            money += (Utils.get_value(uid,"strength")[0] * 0.9 + Utils.get_value(uid,"constitution")[0] * 0.8) * Utils.dice(200,(Utils.get_value(uid,"strength")[0] + Utils.get_value(uid,"constitution")[0])) / 120
+            money += (Utils.get_value(uid,'strength')[0] * 0.9 + Utils.get_value(uid,'constitution')[0] * 0.8) * Utils.dice(200,(Utils.get_value(uid,'strength')[0] + Utils.get_value(uid,'constitution')[0])) / 120
             if money < 0:
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
-            d = Utils.dice(100,Utils.get_value(uid,"constitution")[0])
+            d = Utils.dice(100,Utils.get_value(uid,'constitution')[0])
             str += f"体质检定：1d100 = {d} "
-            if d >= Utils.get_value(uid,"constitution")[0]:
+            if d >= Utils.get_value(uid,'constitution')[0]:
                 DHandles.data_set(uid,"hp_v",0)
                 d = Utils.dice(10,(int)(uid) ^ 101)
                 DHandles.state_refresh(uid,1,time() + d * 3600)
-                str += f" >= {data[uid]["constitution"]}\n{data[uid]["name"]}昏迷了！失神状态将持续1d10 = {d}小时。（期间无法行动，无法被透，技能失效。）"
+                str += f" >= {data[uid]['constitution']}\n{data[uid]['name']}昏迷了！失神状态将持续1d10 = {d}小时。（期间无法行动，无法被透，技能失效。）"
             else:
-                str += f" < {data[uid]["constitution"]}\n"
+                str += f" < {data[uid]['constitution']}\n"
         elif work_key == 6:
             d = Utils.dice(100,(int)(uid) ^ 102)
             money += (d - 50) * 100
@@ -587,8 +587,8 @@ class yinpa_Handles():
                         DHandles.state_refresh(uid,3,time() + 3600)
                         str += "获得3600秒的状态：伟哥\n"
                     elif i == 2:
-                        DHandles.data_set(uid,"penis_length",data[uid]["penis_length"] + 2)
-                        DHandles.data_set(uid,"vagina_depth",data[uid]["vagina_depth"] + 2)
+                        DHandles.data_set(uid,'penis_length',data[uid]['penis_length'] + 2)
+                        DHandles.data_set(uid,'vagina_depth',data[uid]['vagina_depth'] + 2)
                         str += "长度增加了2cm，深度增加了2cm\n"
                     elif i == 3:
                         hp = Utils.get_value(uid,"hp")
@@ -630,21 +630,21 @@ class yinpa_Handles():
                     i = Utils.dice(8,(int)(uid) ^ 108)
                     d = Utils.dice(100,(int)(uid) ^ 109) / 20
                     if i == 1:
-                        i = "strength"
+                        i = 'strength'
                     elif i == 2:
-                        i = "constitution"
+                        i = 'constitution'
                     elif i == 3:
-                        i = "technique"
+                        i = 'technique'
                     elif i == 4:
-                        i = "volition"
+                        i = 'volition'
                     elif i == 5:
-                        i = "intelligence"
+                        i = 'intelligence'
                     elif i == 6:
-                        i = "charm"
+                        i = 'charm'
                     elif i == 7:
-                        i = "penis_length"
+                        i = 'penis_length'
                     elif i == 8:
-                        i = "vagina_depth"
+                        i = 'vagina_depth'
                     str += f"你的{dicts.attribute_dict[i]}： {data[uid][i]} → {data[uid][i] + d}\n"
                     DHandles.data_set(uid,i,(data[uid][i] + d))
         DHandles.data_set(uid,"next_work_time",(time() + 3600))
