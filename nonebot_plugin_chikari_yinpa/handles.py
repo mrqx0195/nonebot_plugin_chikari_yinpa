@@ -411,10 +411,10 @@ class yinpa_Handles():
         if oc:
             await matcher.finish(f"错误：操作失败！\n原因：{oc}")
         Utils.refresh_data(uid)
-        d = Utils.dice(100,uid)
+        d = Utils.dice(40,uid)
         hp = Utils.get_value(uid,"hp")
-        vd_str = f"深度： {data[uid]["vagina_depth"]} → {round(data[uid]["vagina_depth"] + d / 100 - 0.5,2)}"
-        DHandles.data_set(uid,"vagina_depth",round(data[uid]["vagina_depth"] + d / 100 - 0.5,2))
+        vd_str = f"深度： {data[uid]["vagina_depth"]} → {round(data[uid]["vagina_depth"] + d / 100,2)}"
+        DHandles.data_set(uid,"vagina_depth",round(data[uid]["vagina_depth"] + d / 100,2))
         hp_str = f"HP： {hp[0]} → {hp[0] - d}"
         rh_str = Utils.reduce_hp(uid,d)
         await matcher.finish(f"{data[uid]["name"]}扣了一次\n" + vd_str + "\n" + hp_str + rh_str)
