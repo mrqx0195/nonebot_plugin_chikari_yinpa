@@ -15,6 +15,7 @@ __plugin_meta__ = PluginMetadata(
     usage="",
     config=Config,
     type="application",
+    homepage="https://github.com/mrqx0195/nonebot_plugin_chikari_yinpa",
     supported_adapters={"~onebot.v11"}
 )
 
