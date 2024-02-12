@@ -237,13 +237,13 @@ class yinpa_Handles():
             await matcher.finish("对方还未加入银趴！")
         if uid == at:
             await matcher.finish("你想透自己？请使用 /冲 或 /扣")
+        Utils.refresh_data(uid)
+        Utils.refresh_data(at)
         oc = Utils.operation_check(uid)
         if oc:
             await matcher.finish(f"错误：操作失败！\n原因：{oc}")
         if Utils.get_state(at,2):
             await matcher.finish(f"错误：操作失败！\n原因：你连昏迷的{data[at]['name']}都不放过吗？")
-        Utils.refresh_data(uid)
-        Utils.refresh_data(at)
         atk_u = Utils.get_attack_list(uid,at) + [[(int)(data[uid]['penis_length']) * 4,f"{data[uid]['name']}：长度"]]
         str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
@@ -325,12 +325,12 @@ class yinpa_Handles():
         if uid == at:
             await matcher.finish("你想榨自己？请使用 /冲 或 /扣")
         oc = Utils.operation_check(uid)
+        Utils.refresh_data(uid)
+        Utils.refresh_data(at)
         if oc:
             await matcher.finish(f"错误：操作失败！\n原因：{oc}")
         if Utils.get_state(at,2):
             await matcher.finish(f"错误：操作失败！\n原因：你连昏迷的{data[at]['name']}都不放过吗？")
-        Utils.refresh_data(uid)
-        Utils.refresh_data(at)
         atk_u = Utils.get_attack_list(uid,at) + [[(int)(data[uid]['vagina_depth']) * 4,f"{data[uid]['name']}：深度"]]
         str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
