@@ -514,7 +514,7 @@ class yinpa_Handles():
         oc = Utils.operation_check(uid)
         if oc:
             await matcher.finish(f"错误：操作失败！\n原因：{oc}")
-        if data[uid]["next_work_time"]:
+        if data[uid]["next_work_time"] <= time() - 3600:
             await matcher.finish("你现在正在工作冷却中！")
         if work_key in list(dicts.work_dict.values()):
             work_key = (list(dicts.work_dict.keys()))[(list(dicts.work_dict.values())).index(work_key)]
