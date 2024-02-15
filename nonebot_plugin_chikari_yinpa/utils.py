@@ -11,23 +11,66 @@ from .dicts import dicts
 
 class Utils:
     def group_enable_check(groupid: int):
+        """检查群组是否在银趴列表中
+
+        Args:
+            groupid (int): 群组id
+
+        Returns:
+            int: 是否出现
+        """
+        
         return configdata["yinpa_enabled_group"].count(groupid)
     
     def last_operation_time_check(uid: str):
+        """检测上次行动时间
+
+        Args:
+            uid (str): 用户id
+
+        Returns:
+            bool: 是否到时
+        """
+        
         minutes=(int)(time()/60)
         if data[uid]["last_operation_time"] < minutes:
             return True
         return False
     
     def set_last_operation_time(uid: str):
+        """设置上次行动时间
+
+        Args:
+            uid (str): 用户id
+        """
+        
         DHandles.data_set(uid,"last_operation_time",(int)(time()/60))
         return
     
     def dice(d:int,_seed):
+        """骰子
+
+        Args:
+            d (int): 上限
+            _seed (_type_): 随机初始化种子
+
+        Returns:
+            int: 值
+        """
+        
         seed((int)(time()) ^ (int)(d) ^ (int)(_seed))
         return randint(1,(int)(d))
     
     def get_at(event: GroupMessageEvent):
+        """获取消息中的at
+
+        Args:
+            event (GroupMessageEvent): 消息
+
+        Returns:
+            list: at列表
+        """
+        
         try:
             qq_list = []
             msg = json.loads(event.json())
@@ -44,11 +87,29 @@ class Utils:
             return []
 
     def yinpa_user_presence_check(uid: str):
+        """检查用户是否存在
+
+        Args:
+            uid (str): 用户id
+
+        Returns:
+            bool: 用户是否存在
+        """
+        
         if data.get(uid):
             return True
         return False
     
     def text_to_image(text: str):
+        """文字转图片
+
+        Args:
+            text (str): 要转换的文字
+
+        Returns:
+            bytes: 图片
+        """
+        
         fontSize = 30
         liens = text.split('\n')
         max_len = 0
@@ -65,6 +126,15 @@ class Utils:
         return img_byte.getvalue()
 
     def get_user_info_image(uid: str):
+        """获取用户的信息图
+
+        Args:
+            uid (str): 用户id
+
+        Returns:
+            bytes: 图片
+        """
+        
         Utils.refresh_data(uid)
         user_data = data[uid]
         skill_text = ""
@@ -77,6 +147,12 @@ class Utils:
         return Utils.text_to_image(text)
     
     def refresh_data(uid: str):
+        """更新用户数据
+
+        Args:
+            uid (str): 用户id
+        """
+        
         b = False
         new_state = data[uid]["state"]
         for i in range(len(data[uid]["state"])):
@@ -107,6 +183,16 @@ class Utils:
         return
 
     def get_skill(uid: str,id: int):
+        """获取技能
+
+        Args:
+            uid (str): 用户id
+            id (int): 技能id
+
+        Returns:
+            list: [技能,附加数据]
+        """
+        
         s = []
         if not Utils.get_state(uid,1):
             for i in data[uid]["skill"]:
@@ -115,6 +201,16 @@ class Utils:
         return s
 
     def get_state(uid: str,id: int):
+        """获取状态
+
+        Args:
+            uid (str): 用户id
+            id (int): 状态id
+
+        Returns:
+            list: [状态,结束时间]
+        """
+        
         s = []
         for i in data[uid]["state"]:
             if i[0] == id:
@@ -122,6 +218,12 @@ class Utils:
         return s
 
     def is_night():
+        """判断是否为晚上
+
+        Returns:
+            bool: 是否为晚上
+        """
+        
         b = True
         hour = localtime().tm_hour
         if hour > 6 and hour <= 18:
@@ -129,6 +231,15 @@ class Utils:
         return b
 
     def boat(uid: str):
+        """判断舰装是否生效
+
+        Args:
+            uid (str): 用户id
+
+        Returns:
+            bool: 舰装是否生效
+        """
+        
         b = False
         s = Utils.get_skill(uid,6)
         if s and s[1] <= time():
@@ -136,6 +247,15 @@ class Utils:
         return b
 
     def vampire(uid: str):
+        """判断吸血鬼技能是否生效
+
+        Args:
+            uid (str): 用户id
+
+        Returns:
+            int: 加成值，无吸血鬼技能时返回0
+        """
+        
         if Utils.get_skill(uid,7):
             if Utils.is_night():
                 return 50
@@ -144,6 +264,16 @@ class Utils:
         return 0
 
     def get_value(uid: str,key: str):
+        """获取用户当前状态下的某一数值
+
+        Args:
+            uid (str): 用户id
+            key (str): 数值名
+
+        Returns:
+            list: [数值,附加信息]
+        """
+        
         b = False
         value = 0
         if key == "hp":
@@ -185,6 +315,16 @@ class Utils:
         return [value,b]
 
     def get_attack_list(uid: str,target: str):
+        """获取用户对目标造成的伤害
+
+        Args:
+            uid (str): 用户id
+            target (str): 目标id
+
+        Returns:
+            list: 伤害列表
+        """
+        
         atk = [[Utils.get_value(uid,'technique')[0],f"{data[uid]['name']}：技巧"]]
         if Utils.get_skill(uid,2):
             atk.append([30,f"{data[uid]['name']}：猫化"])
@@ -204,6 +344,16 @@ class Utils:
         return atk
     
     def reduce_hp(uid: str,hp: int):
+        """减少hp并返回描述文本
+
+        Args:
+            uid (str): 用户id
+            hp (int): 减少的hp
+
+        Returns:
+            str: 若有高潮/失神/昏迷，则返回相关描述文本
+        """
+        
         str = ""
         if not Utils.get_state(uid,1):
             DHandles.data_set(uid,'hp_v',Utils.get_value(uid,"hp")[0] - hp)
@@ -242,6 +392,15 @@ class Utils:
         return str
     
     def operation_check(uid: str):
+        """检测用户是否能够行动
+
+        Args:
+            uid (str): 用户id
+
+        Returns:
+            str: 不能行动的理由，可以行动时返回""
+        """
+        
         oc = ""
         Utils.refresh_data(uid)
         if not Utils.last_operation_time_check(uid):
@@ -255,12 +414,30 @@ class Utils:
         return oc
     
     def find_user_name(name: str):
+        """从昵称查找至用户id
+
+        Args:
+            name (str): 银趴昵称
+
+        Returns:
+            str: 用户id，未找到时返回None
+        """
+        
         for i in data.keys():
             if data[i]['name'] == name:
                 return i
         return None
     
     def get_regeneration_rate(uid: str):
+        """获取hp自然恢复速度
+
+        Args:
+            uid (str): 用户id
+
+        Returns:
+            int: 每分钟自然恢复hp
+        """
+        
         rr = 1
         if Utils.get_skill(uid,8):
             rr += 5
