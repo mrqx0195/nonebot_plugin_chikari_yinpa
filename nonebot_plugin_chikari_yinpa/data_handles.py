@@ -10,29 +10,31 @@ plugin_config_file: Path = store.get_config_file("chikari_yinpa", "config.json")
 
 #用户数据文件初始化及载入
 
-if not os.path.exists(plugin_data_file):
-    f = open(plugin_data_file,'w')
-    init_data = {}
-    json.dump(init_data,f,indent=4)
-    f.close
-    data = init_data
-else:
-    with open(plugin_data_file,encoding='utf-8')as datafile:
-        data = json.load(datafile,strict=False)
+with open(plugin_data_file,encoding='utf-8')as datafile:
+    datastr = datafile.read()
+    if not os.path.exists(plugin_data_file) or not datastr:
+        f = open(plugin_data_file,'w')
+        init_data = {}
+        json.dump(init_data,f,indent=4)
+        f.close
+        data = init_data
+    else:
+        data = json.loads(datastr,strict=False)
         
 #配置数据文件初始化及载入
 
-if not os.path.exists(plugin_config_file):
-    f = open(plugin_config_file,'w')
-    init_data = {
-        "yinpa_enabled_group":[],
-    }
-    json.dump(init_data,f,indent=4)
-    f.close
-    configdata = init_data
-else:
-    with open(plugin_config_file,encoding='utf-8')as configfile:
-        configdata = json.load(configfile,strict=False)
+with open(plugin_config_file,encoding='utf-8')as configfile:
+    configstr = configfile.read()
+    if not os.path.exists(plugin_config_file) or not configstr:
+        f = open(plugin_config_file,'w')
+        init_data = {
+            "yinpa_enabled_group":[],
+        }
+        json.dump(init_data,f,indent=4)
+        f.close
+        configdata = init_data
+    else:
+        configdata = json.loads(configstr,strict=False)
 
 
 class DHandles():
