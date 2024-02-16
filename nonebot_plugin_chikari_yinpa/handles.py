@@ -473,46 +473,7 @@ class yinpa_Handles():
             str = ""
             for i in goods:
                 i = int(i)
-                str += f"成功购买商品：{dicts.shop_dict[i]}\n"
-                if i == 1:
-                    DHandles.state_refresh(uid,3,time() + 3600)
-                    str += "获得3600秒的状态：伟哥\n"
-                elif i == 2:
-                    DHandles.data_set(uid,'penis_length',data[uid]['penis_length'] + 2)
-                    DHandles.data_set(uid,'vagina_depth',data[uid]['vagina_depth'] + 2)
-                    str += "长度增加了2cm，深度增加了2cm\n"
-                elif i == 3:
-                    hp = Utils.get_value(uid,"hp")
-                    if hp[1]:
-                        DHandles.data_set(uid,"hp_c",data[uid]["hp_c"] + 100)
-                        str += "体质HP增加了100\n"
-                    else:
-                        DHandles.data_set(uid,"hp_v",data[uid]["hp_v"] + 100)
-                        str += "意志HP增加了100\n"
-                elif i == 4:
-                    DHandles.skill_refresh(uid,2)
-                    str += "获得技能：猫化（ID：2）\n"
-                elif i == 5:
-                    DHandles.skill_refresh(uid,3)
-                    str += "获得技能：自然之心（ID：3）\n"
-                elif i == 6:
-                    DHandles.skill_refresh(uid,4)
-                    str += "获得技能：圣体（ID：4）\n"
-                elif i == 7:
-                    DHandles.skill_refresh(uid,5)
-                    str += "获得技能：淫纹（ID：5）\n"
-                elif i == 8:
-                    DHandles.skill_refresh(uid,6)
-                    str += "获得技能：舰装（ID：6）\n"
-                elif i == 9:
-                    DHandles.skill_refresh(uid,7)
-                    str += "获得技能：猩红之影（ID：7）\n"
-                elif i == 10:
-                    DHandles.skill_refresh(uid,8)
-                    str += "获得技能：自然蕴息宝珠（ID：8）\n"
-                elif i == 11:
-                    DHandles.skill_refresh(uid,9)
-                    str += "获得技能：屹立不倒（ID：9）\n"
+                str += Utils.gain_item(uid,i)
             await matcher.finish(MessageSegment.image(Utils.text_to_image(str)))
 
     async def yinpa_work(
@@ -599,7 +560,7 @@ class yinpa_Handles():
                 str += f" < {data[uid]['constitution']}\n"
         elif work_key == 6:
             d = Utils.dice(100,(int)(uid) ^ 102)
-            money += (d - 50) * 100
+            money += (d - 70) * 100
             if money < 0:
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
@@ -607,51 +568,14 @@ class yinpa_Handles():
             if d == 1:
                 d = Utils.dice(10,(int)(uid) ^ 104)
                 if d == 1:
-                    i = Utils.dice(11,(int)(uid) ^ 105)
-                    str += f"你获得了物品：{dicts.shop_dict[i]}\n"
-                    if i == 1:
-                        DHandles.state_refresh(uid,3,time() + 3600)
-                        str += "获得3600秒的状态：伟哥\n"
-                    elif i == 2:
-                        DHandles.data_set(uid,'penis_length',data[uid]['penis_length'] + 2)
-                        DHandles.data_set(uid,'vagina_depth',data[uid]['vagina_depth'] + 2)
-                        str += "长度增加了2cm，深度增加了2cm\n"
-                    elif i == 3:
-                        hp = Utils.get_value(uid,"hp")
-                        if hp[1]:
-                            DHandles.data_set(uid,"hp_c",data[uid]["hp_c"] + 100)
-                            str += "体质HP增加了100\n"
-                        else:
-                            DHandles.data_set(uid,"hp_v",data[uid]["hp_v"] + 100)
-                            str += "意志HP增加了100\n"
-                    elif i == 4:
-                        DHandles.skill_refresh(uid,2)
-                        str += "获得技能：猫化（ID：2）\n"
-                    elif i == 5:
-                        DHandles.skill_refresh(uid,3)
-                        str += "获得技能：自然之心（ID：3）\n"
-                    elif i == 6:
-                        DHandles.skill_refresh(uid,4)
-                        str += "获得技能：圣体（ID：4）\n"
-                    elif i == 7:
-                        DHandles.skill_refresh(uid,5)
-                        str += "获得技能：淫纹（ID：5）\n"
-                    elif i == 8:
-                        DHandles.skill_refresh(uid,6)
-                        str += "获得技能：舰装（ID：6）\n"
-                    elif i == 9:
-                        DHandles.skill_refresh(uid,7)
-                        str += "获得技能：猩红之影（ID：7）\n"
-                    elif i == 10:
-                        DHandles.skill_refresh(uid,8)
-                        str += "获得技能：自然蕴息宝珠（ID：8）\n"
-                    elif i == 11:
-                        DHandles.skill_refresh(uid,9)
-                        str += "获得技能：屹立不倒（ID：9）\n"
+                    l = Utils.get_keys_list(dicts.shop_dict)
+                    i = Utils.dice(len(l),(int)(uid) ^ 105)
+                    str += Utils.gain_item(uid,l[i - 1])
                 elif d >= 2 and d <= 5:
-                    i = Utils.dice(3,(int)(uid) ^ 106)
+                    l = Utils.get_keys_list(dicts.state_dict)
+                    i = Utils.dice(len(l),(int)(uid) ^ 106)
                     d = Utils.dice(86400,(int)(uid) ^ 107)
-                    str += f"你获得了状态：{dicts.state_dict[i]}\n持续时间：{d}秒\n"
+                    str += DHandles.state_refresh(uid,i,time() + d,level = 1,mode = 'add')
                 elif d >= 6 and d <= 10:
                     i = Utils.dice(8,(int)(uid) ^ 108)
                     d = Utils.dice(100,(int)(uid) ^ 109) / 20

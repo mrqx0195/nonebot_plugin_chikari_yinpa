@@ -3,6 +3,7 @@ import os
 
 from pathlib import Path
 from time import time
+from .dicts import dicts
 import nonebot_plugin_localstore as store
 
 plugin_data_file: Path = store.get_data_file("chikari_yinpa", "data.json")
@@ -119,13 +120,18 @@ class DHandles():
         DHandles.file_save()
         return
     
-    def skill_refresh(uid: str,id: int,value = None):
+    def skill_refresh(uid: str,id: int,value = None,level: int = 1,mode: str = ''):
         """更新技能
 
         Args:
             uid (str): 用户id
             id (int): 技能id
             value (_type_, optional): 技能附加数据
+            level (int): 技能等级
+            mode (str): 若为'add'则为增加等级，否则为修改等级（如果未拥有该技能，则固定为修改等级）
+
+        Returns:
+            str: 描述文本
         """
         
         global data
@@ -133,19 +139,30 @@ class DHandles():
         for i in range(len(data[uid]["skill"])):
             if data[uid]["skill"][i][0] == id:
                 data[uid]["skill"][i][1] = value
+                if len(data[uid]["skill"][i]) >= 3:
+                    if mode == 'add':
+                        level += data[uid]["skill"][i][2]
+                    data[uid]["skill"][i][2] = level
+                else:
+                    data[uid]["skill"][i].insert(2,level)
                 b = True
                 break
         if not b:
-            data[uid]["skill"].append([id,value])
-        return
+            data[uid]["skill"].append([id,value,level])
+        return f"获得技能：{dicts.skill_dict[id]}（等级：{level}）（ID：{id}）\n"
     
-    def state_refresh(uid: str,id: int,value = time()):
+    def state_refresh(uid: str,id: int,value = time(),level: int = 1,mode: str = ''):
         """更新状态
 
         Args:
             uid (str): 用户id
             id (int): 状态id
-            value (_type_, optional): 状态结束时间，默认为当前时间
+            value (_type_, optional): 状态结束时间
+            level (int): 状态等级
+            mode (str): 若为'add'则为增加等级，否则为修改等级（如果未拥有该状态，则固定为修改等级）
+
+        Returns:
+            str: 描述文本
         """
         
         global data
@@ -153,8 +170,14 @@ class DHandles():
         for i in range(len(data[uid]["state"])):
             if data[uid]["state"][i][0] == id:
                 data[uid]["state"][i][1] = value
+                if len(data[uid]["state"][i]) >= 3:
+                    if mode == 'add':
+                        level += data[uid]["state"][i][2]
+                    data[uid]["state"][i][2] = level
+                else:
+                    data[uid]["state"][i].insert(2,level)
                 b = True
                 break
         if not b:
-            data[uid]["state"].append([id,value])
-        return
+            data[uid]["state"].append([id,value,level])
+        return f"获得状态：{dicts.state_dict[id]}（等级：{level}）（ID：{id}）\n"

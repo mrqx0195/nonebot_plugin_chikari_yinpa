@@ -140,10 +140,32 @@ class Utils:
         skill_text = ""
         state_text = ""
         for i in user_data["skill"]:
-            skill_text += dicts.skill_dict[i[0]] + ' '
+            skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
+        if not skill_text:
+            skill_text = '无'
         for i in user_data["state"]:
-            state_text += dicts.state_dict[i[0]] + ' '
-        text = f"ID：{uid}\n昵称：{user_data['name']}\n种族：{user_data['species']}\n意志HP：{user_data['hp_v']}\n体质HP：{user_data['hp_c']}\n长度：{user_data['penis_length']}\n深度：{user_data['vagina_depth']}\n力量：{user_data['strength']}\n体质：{user_data['constitution']}\n技巧：{user_data['technique']}\n意志：{user_data['volition']}\n智力：{user_data['intelligence']}\n魅力：{user_data['charm']}\n金钱：{user_data['money']}\n技能：{skill_text}\n状态：{state_text}\n被动次数：{user_data['passive_times']}\n主动次数：{user_data['active_times']}"
+            state_text += dicts.state_dict[i[0]] + f'（等级：{i[2]}）' + '；'
+        if not state_text:
+            state_text = '无'
+        text = f"    ID：{uid}\n"\
+        f"    昵称：{user_data['name']}\n"\
+        f"    种族：{user_data['species']}\n"\
+        f"    意志HP：{user_data['hp_v']}\n"\
+        f"    体质HP：{user_data['hp_c']}\n"\
+        f"    长度：{user_data['penis_length']}\n"\
+        f"    深度：{user_data['vagina_depth']}\n"\
+        f"    力量：{user_data['strength']}\n"\
+        f"    体质：{user_data['constitution']}\n"\
+        f"    技巧：{user_data['technique']}\n"\
+        f"    意志：{user_data['volition']}\n"\
+        f"    智力：{user_data['intelligence']}\n"\
+        f"    魅力：{user_data['charm']}\n"\
+        f"    金钱：{user_data['money']}\n"\
+        f"    技能：{skill_text}\n"\
+        f"    状态：{state_text}\n"\
+        f"    被动次数：{user_data['passive_times']}\n"\
+        f"    主动次数：{user_data['active_times']}\n"\
+        
         return Utils.text_to_image(text)
     
     def refresh_data(uid: str):
@@ -155,6 +177,12 @@ class Utils:
         
         b = False
         new_state = data[uid]["state"]
+        for i in data[uid]["skill"]:
+            if len(i) <= 2:
+                DHandles.skill_refresh(uid,i[0],i[1])
+        for i in data[uid]["state"]:
+            if len(i) <= 2:
+                DHandles.state_refresh(uid,i[0],i[1])
         for i in range(len(data[uid]["state"])):
             if i >= len(data[uid]["state"]):
                 break
@@ -190,14 +218,16 @@ class Utils:
             id (int): 技能id
 
         Returns:
-            list: [技能,附加数据]
+            list: [技能id,附加数据,等级]
         """
         
         s = []
         for i in data[uid]["skill"]:
             if i[0] == id:
                 s = i
-        if s and s[0] != 9 and not Utils.get_state(uid,1):
+            if len(i) <= 2:
+                DHandles.skill_refresh(uid,i[0],i[1])
+        if s and s[0] != 9 and Utils.get_state(uid,1):
             s = []
         return s
 
@@ -209,13 +239,15 @@ class Utils:
             id (int): 状态id
 
         Returns:
-            list: [状态,结束时间]
+            list: [状态id,结束时间,等级]
         """
         
         s = []
         for i in data[uid]["state"]:
             if i[0] == id:
                 s = i
+            if len(i) <= 2:
+                DHandles.state_refresh(uid,i[0],i[1])
         return s
 
     def is_night():
@@ -326,22 +358,24 @@ class Utils:
             list: 伤害列表
         """
         
+        Utils.refresh_data(uid)
+        Utils.refresh_data(target)
         atk = [[Utils.get_value(uid,'technique')[0],f"{data[uid]['name']}：技巧"]]
-        if Utils.get_skill(uid,2):
-            atk.append([30,f"{data[uid]['name']}：猫化"])
-        if Utils.get_skill(uid,3):
-            atk.append([Utils.get_value(uid,'intelligence')[0] / 2,f"{data[uid]['name']}：自然之心"])
-        if Utils.get_skill(uid,5):
-            atk.append([80,f"{data[uid]['name']}：淫纹"])
-        if Utils.get_state(uid,3):
-            atk.append([30,f"{data[uid]['name']}：伟哥"])
+        if i := Utils.get_skill(uid,2):
+            atk.append([30 * i[2],f"{data[uid]['name']}：猫化"])
+        if i := Utils.get_skill(uid,3):
+            atk.append([Utils.get_value(uid,'intelligence')[0] / 2 * i[2],f"{data[uid]['name']}：自然之心"])
+        if i := Utils.get_skill(uid,5):
+            atk.append([80 * i[2],f"{data[uid]['name']}：淫纹"])
+        if i := Utils.get_state(uid,3):
+            atk.append([30 * i[2],f"{data[uid]['name']}：伟哥"])
         
-        if Utils.get_skill(target,2):
-            atk.append([-30,f"{data[target]['name']}：猫化"])
-        if Utils.get_skill(target,3):
-            atk.append([-Utils.get_value(uid,'intelligence')[0] / 2,f"{data[target]['name']}：自然之心"])
-        if Utils.get_skill(target,4):
-            atk.append([-80,f"{data[target]['name']}：圣体"])
+        if i := Utils.get_skill(target,2):
+            atk.append([-30 * i[2],f"{data[target]['name']}：猫化"])
+        if i := Utils.get_skill(target,3):
+            atk.append([-Utils.get_value(uid,'intelligence')[0] / 2 * i[2],f"{data[target]['name']}：自然之心"])
+        if i := Utils.get_skill(target,4):
+            atk.append([-80 * i[2],f"{data[target]['name']}：圣体"])
         return atk
     
     def reduce_hp(uid: str,hp: int):
@@ -444,4 +478,58 @@ class Utils:
             rr += 5
         return rr
     
+    def get_keys_list(dict):
+        """获取某一字典的keys列表
+
+        Args:
+            dict (Dict): 字典
+
+        Returns:
+            list: keys列表
+        """
+        return list(dict.keys())
     
+    def gain_item(uid: str,id: int):
+        """用户获得物品
+
+        Args:
+            uid (str): 用户id
+            id (int): 物品id
+
+        Returns:
+            str: 描述文本
+        """
+        
+        str = ''
+        str += f"你获得了物品：{dicts.shop_dict[id]}\n"
+        if id == 1:
+            str += DHandles.state_refresh(uid,3,time() + 3600,level = 1,mode = 'add')
+        elif id == 2:
+            DHandles.data_set(uid,'penis_length',data[uid]['penis_length'] + 2)
+            DHandles.data_set(uid,'vagina_depth',data[uid]['vagina_depth'] + 2)
+            str += "长度增加了2cm，深度增加了2cm\n"
+        elif id == 3:
+            hp = Utils.get_value(uid,"hp")
+            if hp[1]:
+                DHandles.data_set(uid,"hp_c",data[uid]["hp_c"] + 100)
+                str += "体质HP增加了100\n"
+            else:
+                DHandles.data_set(uid,"hp_v",data[uid]["hp_v"] + 100)
+                str += "意志HP增加了100\n"
+        elif id == 4:
+            str += DHandles.skill_refresh(uid,2,level = 1,mode = 'add')
+        elif id == 5:
+            str += DHandles.skill_refresh(uid,3,level = 1,mode = 'add')
+        elif id == 6:
+            str += DHandles.skill_refresh(uid,4,level = 1,mode = 'add')
+        elif id == 7:
+            str += DHandles.skill_refresh(uid,5,level = 1,mode = 'add')
+        elif id == 8:
+            str += DHandles.skill_refresh(uid,6,level = 1,mode = 'add')
+        elif id == 9:
+            str += DHandles.skill_refresh(uid,7,level = 1,mode = 'add')
+        elif id == 10:
+            str += DHandles.skill_refresh(uid,8,level = 1,mode = 'add')
+        elif id == 11:
+            str += DHandles.skill_refresh(uid,9,level = 1,mode = 'add')
+        return str
