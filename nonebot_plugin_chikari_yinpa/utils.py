@@ -5,6 +5,7 @@ from random import randint,seed
 from time import time,localtime
 from PIL import Image,ImageDraw,ImageFont
 from io import BytesIO
+from math import sqrt
 
 from .data_handles import data,configdata,DHandles
 from .dicts import dicts
@@ -270,13 +271,13 @@ class Utils:
             uid (str): 用户id
 
         Returns:
-            bool: 舰装是否生效
+            int: 舰装等级
         """
         
-        b = False
+        b = 0
         s = Utils.get_skill(uid,6)
         if s and s[1] and s[1] <= time():
-            b = True
+            b = s[2]
         return b
 
     def vampire(uid: str):
@@ -289,11 +290,11 @@ class Utils:
             int: 加成值，无吸血鬼技能时返回0
         """
         
-        if Utils.get_skill(uid,7):
+        if  i := Utils.get_skill(uid,7):
             if Utils.is_night():
-                return 50
+                return 50 * sqrt(i[2])
             else:
-                return -50
+                return -50 / sqrt(i[2])
         return 0
 
     def get_value(uid: str,key: str):
@@ -323,21 +324,21 @@ class Utils:
             value = data[uid]['vagina_depth']
         elif key == 'strength':
             value = data[uid]['strength']
-            if Utils.boat(uid):
-                value += Utils.get_value(uid,'intelligence')[0]
+            if i := Utils.boat(uid):
+                value += Utils.get_value(uid,'intelligence')[0] * sqrt(i[2])
             value += Utils.vampire(uid)
         elif key == 'constitution':
             value = data[uid]['constitution']
-            if Utils.boat(uid):
-                value += Utils.get_value(uid,'intelligence')[0]
+            if i := Utils.boat(uid):
+                value += Utils.get_value(uid,'intelligence')[0] * sqrt(i[2])
             value += Utils.vampire(uid)
         elif key == 'technique':
             value = data[uid]['technique']
             value += Utils.vampire(uid)
         elif key == 'volition':
             value = data[uid]['volition']
-            if Utils.boat(uid):
-                value += Utils.get_value(uid,'intelligence')[0]
+            if i := Utils.boat(uid):
+                value += Utils.get_value(uid,'intelligence')[0] * sqrt(i[2])
             value += Utils.vampire(uid)
         elif key == 'intelligence':
             value = data[uid]['intelligence']
@@ -362,20 +363,20 @@ class Utils:
         Utils.refresh_data(target)
         atk = [[Utils.get_value(uid,'technique')[0],f"{data[uid]['name']}：技巧"]]
         if i := Utils.get_skill(uid,2):
-            atk.append([30 * i[2],f"{data[uid]['name']}：猫化"])
+            atk.append([30 * sqrt(i[2]),f"{data[uid]['name']}：猫化"])
         if i := Utils.get_skill(uid,3):
-            atk.append([Utils.get_value(uid,'intelligence')[0] / 2 * i[2],f"{data[uid]['name']}：自然之心"])
+            atk.append([Utils.get_value(uid,'intelligence')[0] / 2 * sqrt(i[2]),f"{data[uid]['name']}：自然之心"])
         if i := Utils.get_skill(uid,5):
-            atk.append([80 * i[2],f"{data[uid]['name']}：淫纹"])
+            atk.append([80 * sqrt(i[2]),f"{data[uid]['name']}：淫纹"])
         if i := Utils.get_state(uid,3):
-            atk.append([30 * i[2],f"{data[uid]['name']}：伟哥"])
+            atk.append([30 * sqrt(i[2]),f"{data[uid]['name']}：伟哥"])
         
         if i := Utils.get_skill(target,2):
-            atk.append([-30 * i[2],f"{data[target]['name']}：猫化"])
+            atk.append([-30 * sqrt(i[2]),f"{data[target]['name']}：猫化"])
         if i := Utils.get_skill(target,3):
-            atk.append([-Utils.get_value(uid,'intelligence')[0] / 2 * i[2],f"{data[target]['name']}：自然之心"])
+            atk.append([-Utils.get_value(uid,'intelligence')[0] / 2 * sqrt(i[2]),f"{data[target]['name']}：自然之心"])
         if i := Utils.get_skill(target,4):
-            atk.append([-80 * i[2],f"{data[target]['name']}：圣体"])
+            atk.append([-80 * sqrt(i[2]),f"{data[target]['name']}：圣体"])
         return atk
     
     def reduce_hp(uid: str,hp: int):
@@ -474,8 +475,8 @@ class Utils:
         """
         
         rr = 1
-        if Utils.get_skill(uid,8):
-            rr += 5
+        if i := Utils.get_skill(uid,8):
+            rr += 5 * i[2]
         return rr
     
     def get_keys_list(dict):
