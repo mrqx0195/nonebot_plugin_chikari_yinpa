@@ -194,10 +194,11 @@ class Utils:
         """
         
         s = []
-        if not Utils.get_state(uid,1):
-            for i in data[uid]["skill"]:
-                if i[0] == id:
-                    s = i
+        for i in data[uid]["skill"]:
+            if i[0] == id:
+                s = i
+        if s and s[0] != 9 and not Utils.get_state(uid,1):
+            s = []
         return s
 
     def get_state(uid: str,id: int):
