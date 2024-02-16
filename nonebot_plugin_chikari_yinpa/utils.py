@@ -176,13 +176,13 @@ class Utils:
         """
         
         b = False
-        new_state = data[uid]["state"]
         for i in data[uid]["skill"]:
             if len(i) <= 2:
                 DHandles.skill_refresh(uid,i[0],i[1])
         for i in data[uid]["state"]:
             if len(i) <= 2:
                 DHandles.state_refresh(uid,i[0],i[1])
+        new_state = data[uid]["state"]
         for i in range(len(data[uid]["state"])):
             if i >= len(data[uid]["state"]):
                 break
