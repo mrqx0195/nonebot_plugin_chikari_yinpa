@@ -1,7 +1,7 @@
 from nonebot.adapters.onebot.v11 import GroupMessageEvent,Message,MessageSegment
 from nonebot.matcher import Matcher
 from nonebot.params import CommandArg
-from nonebot import get_driver
+from nonebot import get_driver,get_plugin_config
 from time import time
 from hashlib import md5
 
@@ -10,7 +10,7 @@ from .config import Config
 from .utils import Utils
 from .dicts import dicts
 
-plugin_config = Config.parse_obj(get_driver().config)
+plugin_config = get_plugin_config(Config)
 
 class yinpa_Handles():
     """消息处理"""

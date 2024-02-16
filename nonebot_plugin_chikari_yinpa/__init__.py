@@ -8,7 +8,6 @@ from nonebot.plugin import PluginMetadata
 from .config import Config
 from .handles import yinpa_Handles
 
-
 __plugin_meta__ = PluginMetadata(
     name="Chikari_yinpa",
     description="一个普通的银趴插件",
