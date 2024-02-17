@@ -1,6 +1,7 @@
 from nonebot.adapters.onebot.v11 import GroupMessageEvent,bot
+from nonebot import get_plugin_config
 
-import os,json
+import json
 from random import randint,seed
 from time import time,localtime
 from PIL import Image,ImageDraw,ImageFont
@@ -9,6 +10,9 @@ from math import sqrt
 
 from .data_handles import data,configdata,DHandles
 from .dicts import dicts
+from .config import Config
+
+plugin_config = get_plugin_config(Config)
 
 class Utils:
     def group_enable_check(groupid: int):
@@ -111,16 +115,15 @@ class Utils:
             bytes: 图片
         """
         
-        fontSize = 30
+        fontSize = 20
         liens = text.split('\n')
         max_len = 0
         for str in liens:
             max_len = max(len(str),max_len)
-        image = Image.new("RGB", ((fontSize * max_len), len(liens) * (fontSize)), (255, 255, 255))
+        image = Image.new("RGB", ((fontSize * max_len), len(liens) * (fontSize + 5)), (255, 255, 255))
         draw = ImageDraw.Draw(image)
-        fontPath = os.path.join("C:\\Windows\\Fonts\\", "simhei.ttf")
-        font = ImageFont.truetype(fontPath, fontSize)
-        draw.text((0, 0), text, font=font, fill="#000000")
+        font = ImageFont.truetype(plugin_config.chikari_yinpa_font, fontSize)
+        draw.text((0, 0), text, font=font, fill="#000000", stroke_width = 0)
         img = image.convert("RGB")
         img_byte = BytesIO()
         img.save(img_byte,"PNG")
@@ -165,7 +168,7 @@ class Utils:
         f"    技能：{skill_text}\n"\
         f"    状态：{state_text}\n"\
         f"    被动次数：{user_data['passive_times']}\n"\
-        f"    主动次数：{user_data['active_times']}\n"\
+        f"    主动次数：{user_data['active_times']}"\
         
         return Utils.text_to_image(text)
     
@@ -185,7 +188,7 @@ class Utils:
                 DHandles.state_refresh(uid,i[0],i[1])
         new_state = data[uid]["state"]
         for i in range(len(data[uid]["state"])):
-            if i >= len(data[uid]["state"]):
+            if i >= len(data[uid]["state"]) and not data[uid]["state"][i]:
                 break
             if data[uid]["state"][i][1] <= time():
                 new_state.remove(data[uid]["state"][i])

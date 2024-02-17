@@ -76,9 +76,10 @@ _✨ NoneBot 一个普通的银趴插件 ✨_
 | 配置项 | 必填 | 默认值 | 说明 |
 |:-----:|:----:|:----:|:----:|
 | chikari_yinpa_initial_sex_value | 否 | 50 | 目前无作用 |
-| chikari_yinpa_initial_penis_length | 否 | 10 | 初始长度。默认：10 |
-| chikari_yinpa_initial_vagina_depth | 否 | 10 | 初始深度。默认：10 |
-| chikari_yinpa_initial_money | 否 | 100 | 初始金钱。默认：100 |
+| chikari_yinpa_initial_penis_length | 否 | 10 | 初始长度 |
+| chikari_yinpa_initial_vagina_depth | 否 | 10 | 初始深度 |
+| chikari_yinpa_initial_money | 否 | 100 | 初始金钱 |
+| chikari_yinpa_font | 否 | Path(__file__).parent / "resource" / "SourceHanSansSC-VF.ttf" | 绘图所用字体 |
 
 ## 🎉 使用
 ### 指令表

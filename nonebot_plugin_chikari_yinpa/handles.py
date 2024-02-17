@@ -4,6 +4,7 @@ from nonebot.params import CommandArg
 from nonebot import get_driver,get_plugin_config
 from time import time
 from hashlib import md5
+from math import sqrt
 
 from .data_handles import data,configdata,DHandles
 from .config import Config
@@ -42,7 +43,7 @@ class yinpa_Handles():
             DHandles.data_set(uid,"last_sign_in_time",(int)(time()/86400))
             d_pl = Utils.dice(100,(int)(data[uid]['penis_length']) ^ 1)
             d_vd = Utils.dice(100,(int)(data[uid]['vagina_depth']) ^ 2)
-            d_m = Utils.dice(100,data[uid]['money'] ^ 3)
+            d_m = Utils.dice(100,(int)(data[uid]['money']) ^ 3)
             await matcher.send(f"{data[uid]['name']}签到成功\n长度增加：{data[uid]['penis_length']} + (1d100 / 100) = {data[uid]['penis_length']} + ({d_pl} / 100) = {round(data[uid]['penis_length'] + d_pl / 100,2)}\n深度增加：{data[uid]['vagina_depth']} + (1d100 / 100) = {data[uid]['vagina_depth']} + ({d_vd} / 100) = {round(data[uid]['vagina_depth'] + d_vd / 100,2)}\n金钱增加：{data[uid]['money']} + 1d100 = {data[uid]['money']} + {d_m} = {data[uid]['money'] + d_m}")
             DHandles.data_set(uid,'penis_length',round(data[uid]['penis_length'] + d_pl / 100,2))
             DHandles.data_set(uid,'vagina_depth',round(data[uid]['vagina_depth'] + d_vd / 100,2))
@@ -260,7 +261,10 @@ class yinpa_Handles():
             await matcher.finish(f"错误：操作失败！\n原因：{oc}")
         if Utils.get_state(at,2):
             await matcher.finish(f"错误：操作失败！\n原因：你连昏迷的{data[at]['name']}都不放过吗？")
-        atk_u = Utils.get_attack_list(uid,at) + [[(int)(data[uid]['penis_length']) * 4,f"{data[uid]['name']}：长度"]]
+        pl = (int)(data[uid]['penis_length']) * 4
+        if pl >= 80:
+            pl = 80 + sqrt(pl - 80)
+        atk_u = Utils.get_attack_list(uid,at) + [[pl,f"{data[uid]['name']}：长度"]]
         str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
             if i[0] > 0:
@@ -279,7 +283,10 @@ class yinpa_Handles():
                 str_u += f" - {d}"
                 res_u -= d
         str_u += f" = {res_u}\n"
-        atk_t = Utils.get_attack_list(at,uid) + [[(int)(data[at]['vagina_depth']) * 4,f"{data[at]['name']}：深度"]]
+        vd = (int)(data[at]['vagina_depth']) * 4
+        if vd >= 80:
+            vd = 80 + sqrt(vd - 80)
+        atk_t = Utils.get_attack_list(at,uid) + [[vd,f"{data[at]['name']}：深度"]]
         str_t = f"{data[uid]['name']}受到的伤害：1d50"
         for i in atk_t:
             if i[0] > 0:
@@ -349,7 +356,10 @@ class yinpa_Handles():
             await matcher.finish(f"错误：操作失败！\n原因：{oc}")
         if Utils.get_state(at,2):
             await matcher.finish(f"错误：操作失败！\n原因：你连昏迷的{data[at]['name']}都不放过吗？")
-        atk_u = Utils.get_attack_list(uid,at) + [[(int)(data[uid]['vagina_depth']) * 4,f"{data[uid]['name']}：深度"]]
+        vd = (int)(data[uid]['vagina_depth']) * 4
+        if vd >= 80:
+            vd = 80 + sqrt(vd - 80)
+        atk_u = Utils.get_attack_list(uid,at) + [[vd,f"{data[uid]['name']}：深度"]]
         str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
             if i[0] > 0:
@@ -368,7 +378,10 @@ class yinpa_Handles():
                 str_u += f" - {d}"
                 res_u -= d
         str_u += f" = {res_u}\n"
-        atk_t = Utils.get_attack_list(at,uid) + [[(int)(data[at]['penis_length']) * 4,f"{data[at]['name']}：长度"]]
+        pl = (int)(data[at]['penis_length']) * 4
+        if pl >= 80:
+            pl = 80 + sqrt(pl - 80)
+        atk_t = Utils.get_attack_list(at,uid) + [[pl,f"{data[at]['name']}：长度"]]
         str_t = f"{data[uid]['name']}受到的伤害：1d50"
         for i in atk_t:
             if i[0] > 0:
@@ -560,7 +573,7 @@ class yinpa_Handles():
                 str += f" < {data[uid]['constitution']}\n"
         elif work_key == 6:
             d = Utils.dice(100,(int)(uid) ^ 102)
-            money += (d - 70) * 100
+            money += (d - 90) * 1000
             if money < 0:
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
