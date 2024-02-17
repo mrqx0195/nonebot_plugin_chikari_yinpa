@@ -144,11 +144,14 @@ class Utils:
         skill_text = ""
         state_text = ""
         for i in user_data["skill"]:
-            skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
+            if i[0] == 6 and i[1] < time():
+                skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）（舰装损坏）' + '；'
+            else:
+                skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
         if not skill_text:
             skill_text = '无'
         for i in user_data["state"]:
-            state_text += dicts.state_dict[i[0]] + f'（等级：{i[2]}）' + '；'
+            state_text += dicts.state_dict[i[0]] + f'（等级：{i[2]}）（持续时间：{i[1] - time()}秒）' + '；'
         if not state_text:
             state_text = '无'
         text = f"    ID：{uid}\n"\
