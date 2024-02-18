@@ -144,14 +144,14 @@ class Utils:
         skill_text = ""
         state_text = ""
         for i in user_data["skill"]:
-            if i[0] == 6 and i[1] < time():
-                skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）（舰装损坏）' + '；'
+            if i[0] == 6 and i[1] >= time():
+                skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）（舰装损坏，{(int)(i[1] - time())}秒后修复）' + '；'
             else:
                 skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
         if not skill_text:
             skill_text = '无'
         for i in user_data["state"]:
-            state_text += dicts.state_dict[i[0]] + f'（等级：{i[2]}）（持续时间：{i[1] - time()}秒）' + '；'
+            state_text += dicts.state_dict[i[0]] + f'（等级：{i[2]}）（剩余时间：{(int)(i[1] - time())}秒）' + '；'
         if not state_text:
             state_text = '无'
         text = f"    ID：{uid}\n"\
@@ -484,17 +484,6 @@ class Utils:
         if i := Utils.get_skill(uid,8):
             rr += 5 * i[2]
         return rr
-    
-    def get_keys_list(dict):
-        """获取某一字典的keys列表
-
-        Args:
-            dict (Dict): 字典
-
-        Returns:
-            list: keys列表
-        """
-        return list(dict.keys())
     
     def gain_item(uid: str,id: int):
         """用户获得物品

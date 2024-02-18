@@ -186,4 +186,4 @@ class DHandles():
                 break
         if not b:
             data[uid]["state"].append([id,value,level])
-        return f"获得状态：{dicts.state_dict[id]}（等级：{level}）（ID：{id}）（持续时间：{value - time()}秒）\n"
+        return f"获得状态：{dicts.state_dict[id]}（等级：{level}）（ID：{id}）（持续时间：{(int)(value - time())}秒）\n"

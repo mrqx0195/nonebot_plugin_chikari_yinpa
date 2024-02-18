@@ -546,7 +546,7 @@ class yinpa_Handles():
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
             d = Utils.dice(100,Utils.get_value(uid,'volition')[0])
-            str += f"智慧检定：1d100 = {d} "
+            str += f"智力检定：1d100 = {d} "
             if d >= Utils.get_value(uid,'intelligence')[0]:
                 str += f" >= {data[uid]['intelligence']}\n"
             else:
@@ -581,11 +581,11 @@ class yinpa_Handles():
             if d == 1:
                 d = Utils.dice(10,(int)(uid) ^ 104)
                 if d == 1:
-                    l = Utils.get_keys_list(dicts.shop_dict)
+                    l = list(dicts.shop_dict.keys())
                     i = Utils.dice(len(l),(int)(uid) ^ 105)
                     str += Utils.gain_item(uid,l[i - 1])
                 elif d >= 2 and d <= 5:
-                    l = Utils.get_keys_list(dicts.state_dict)
+                    l = list(dicts.state_dict.keys())
                     i = Utils.dice(len(l),(int)(uid) ^ 106)
                     d = Utils.dice(86400,(int)(uid) ^ 107)
                     str += DHandles.state_refresh(uid,i,time() + d,level = 1,mode = 'add')
