@@ -12,7 +12,7 @@ _✨ NoneBot 一个普通的银趴插件 ✨_
 
 
 <a href="./LICENSE">
-    <img src="https://img.shields.io/github/license/mrqx0195/nonebot-plugin-chikari-yinpa.svg" alt="license">
+    <img src="https://img.shields.io/github/license/mrqx0195/nonebot_plugin_chikari_yinpa" alt="license">
 </a>
 <a href="https://pypi.python.org/pypi/nonebot-plugin-chikari-yinpa">
     <img src="https://img.shields.io/pypi/v/nonebot-plugin-chikari-yinpa.svg" alt="pypi">

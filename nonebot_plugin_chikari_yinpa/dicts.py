@@ -1,6 +1,6 @@
 
 class dicts():
-    """银趴数据
+    """银趴常量字典
     """
     
     yinpa_help_dict = {

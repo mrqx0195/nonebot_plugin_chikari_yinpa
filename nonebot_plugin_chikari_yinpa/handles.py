@@ -28,6 +28,8 @@ class yinpa_Handles():
         elif "disable" in command and Utils.group_enable_check(event.group_id):
             DHandles.group_remove(event.group_id)
             await matcher.finish("本群银趴已禁用")
+        else:
+            await matcher.finish("错误：参数错误！\n命令：/yinpa_control <enable/disable>")
 
     async def sign_in(
             matcher: Matcher,event: GroupMessageEvent
@@ -39,18 +41,18 @@ class yinpa_Handles():
         if not Utils.yinpa_user_presence_check(event.get_user_id()):
             await matcher.finish("您还未加入银趴！\ntips：请使用 /yinpa_join 或 /加入银趴 加入银趴")
         uid: str=event.get_user_id()
-        if data[uid]["last_sign_in_time"] < (int)(time()/86400):
-            DHandles.data_set(uid,"last_sign_in_time",(int)(time()/86400))
+        if data[uid]["last_sign_in_time"] < (int)(time() / 86400):
+            DHandles.data_set(uid,"last_sign_in_time",(int)(time() / 86400))
             d_pl = Utils.dice(100,(int)(data[uid]['penis_length']) ^ 1)
             d_vd = Utils.dice(100,(int)(data[uid]['vagina_depth']) ^ 2)
             d_m = Utils.dice(100,(int)(data[uid]['money']) ^ 3)
-            await matcher.send(f"{data[uid]['name']}签到成功\n长度增加：{data[uid]['penis_length']} + (1d100 / 100) = {data[uid]['penis_length']} + ({d_pl} / 100) = {round(data[uid]['penis_length'] + d_pl / 100,2)}\n深度增加：{data[uid]['vagina_depth']} + (1d100 / 100) = {data[uid]['vagina_depth']} + ({d_vd} / 100) = {round(data[uid]['vagina_depth'] + d_vd / 100,2)}\n金钱增加：{data[uid]['money']} + 1d100 = {data[uid]['money']} + {d_m} = {data[uid]['money'] + d_m}")
+            await matcher.send(f"{data[uid]['name']}签到成功\n长度增加：{data[uid]['penis_length']} + (1d100 / 100) = {data[uid]['penis_length']} + ({d_pl} / 100) = {round(data[uid]['penis_length'] + d_pl / 100,2)}\n深度增加：{data[uid]['vagina_depth']} + (1d100 / 100) = {data[uid]['vagina_depth']} + ({d_vd} / 100) = {round(data[uid]['vagina_depth'] + d_vd / 100,2)}\n金钱增加：{data[uid]['money']} + 1d100 = {data[uid]['money']} + {d_m} = {data[uid]['money'] + d_m}\nps：签到于早上8点刷新")
             DHandles.data_set(uid,'penis_length',round(data[uid]['penis_length'] + d_pl / 100,2))
             DHandles.data_set(uid,'vagina_depth',round(data[uid]['vagina_depth'] + d_vd / 100,2))
             DHandles.data_set(uid,'money',data[uid]['money'] + d_m)
             await matcher.finish()
         else:
-            await matcher.finish("你今天已经打过卡了呢~")
+            await matcher.finish("你今天已经打过卡了呢~\nps：签到于早上8点刷新，别问我为什么")
 
     async def yinpa_join(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()

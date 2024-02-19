@@ -5,7 +5,7 @@ with open("README.md", "r", encoding='utf-8') as fh:
 
 setuptools.setup(
     name="nonebot_plugin_chikari_yinpa",
-    version="1.2.5",
+    version="1.2.6",
     author="mrqx0195",
     author_email="2317249571@qq.com",
     description="A plugin for nonebot 2",
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/mrqx0195/nonebot_plugin_chikari_yinpa",
     packages=setuptools.find_packages(),
-    install_requires=['Pillow', 'nonebot2>=2.0.0','nonebot-adapter-onebot','nonebot-plugin-localstore'],
+    install_requires=['pillow', 'nonebot2>=2.2.0','nonebot-adapter-onebot','nonebot-plugin-localstore'],
     classifiers=(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
