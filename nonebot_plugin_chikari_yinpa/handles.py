@@ -14,12 +14,14 @@ from .dicts import dicts
 plugin_config = get_plugin_config(Config)
 
 class yinpa_Handles():
-    """消息处理"""
+    """消息处理
+    """
     
     async def module_enable(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
     ):
-        """处理银趴的开关"""
+        """处理银趴的开关
+        """
         
         command: str = args.extract_plain_text()
         if "enable" in command and not Utils.group_enable_check(event.group_id):
@@ -34,7 +36,8 @@ class yinpa_Handles():
     async def sign_in(
             matcher: Matcher,event: GroupMessageEvent
     ):
-        """处理签到"""
+        """处理签到
+        """
         
         if not Utils.group_enable_check(event.group_id):
             await matcher.finish("本群银趴已禁用")
@@ -57,7 +60,8 @@ class yinpa_Handles():
     async def yinpa_join(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
     ):
-        """处理加入银趴"""
+        """处理加入银趴
+        """
         
         if not Utils.group_enable_check(event.group_id):
             await matcher.finish("本群银趴已禁用，你不准参加银趴！")
@@ -110,7 +114,8 @@ class yinpa_Handles():
     async def yinpa_leave(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
     ):
-        """处理离开银趴"""
+        """处理离开银趴
+        """
         
         if not Utils.group_enable_check(event.group_id):
             await matcher.finish("本群银趴已禁用")
@@ -131,7 +136,8 @@ class yinpa_Handles():
     async def yinpa_help(
             matcher: Matcher,args: Message = CommandArg()
     ):
-        """处理银趴帮助"""
+        """处理银趴帮助
+        """
         
         command = args.extract_plain_text()
         help_key = command.split()
@@ -199,7 +205,8 @@ class yinpa_Handles():
     async def yinpa_info(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
     ):
-        """处理查询信息"""
+        """处理查询信息
+        """
         
         at:list = Utils.get_at(event)
         if not at:
@@ -229,7 +236,8 @@ class yinpa_Handles():
     async def yinpa_tou(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
     ):
-        """处理透人"""
+        """处理透人
+        """
         
         at:list = Utils.get_at(event)
         if not at:
@@ -324,7 +332,8 @@ class yinpa_Handles():
     async def yinpa_zha(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
     ):
-        """处理榨人"""
+        """处理榨人
+        """
         
         at:list = Utils.get_at(event)
         if not at:
@@ -419,7 +428,8 @@ class yinpa_Handles():
     async def yinpa_chong(
             matcher: Matcher,event: GroupMessageEvent
     ):
-        """处理冲"""
+        """处理冲
+        """
         
         uid: str = event.get_user_id()
         if not Utils.yinpa_user_presence_check(event.get_user_id()):
@@ -439,7 +449,8 @@ class yinpa_Handles():
     async def yinpa_kou(
             matcher: Matcher,event: GroupMessageEvent
     ):
-        """处理扣"""
+        """处理扣
+        """
         
         uid: str = event.get_user_id()
         if not Utils.yinpa_user_presence_check(event.get_user_id()):
@@ -459,7 +470,8 @@ class yinpa_Handles():
     async def yinpa_shop(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
     ):
-        """处理商店"""
+        """处理商店
+        """
         
         uid = event.get_user_id()
         command = args.extract_plain_text()
@@ -494,7 +506,8 @@ class yinpa_Handles():
     async def yinpa_work(
             matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
     ):
-        """处理工作"""
+        """处理工作
+        """
         
         uid = event.get_user_id()
         if not Utils.yinpa_user_presence_check(event.get_user_id()):
@@ -616,3 +629,11 @@ class yinpa_Handles():
         DHandles.data_set(uid,"money",data[uid]["money"] + money)
         str += "一小时内你将无法继续工作"
         await matcher.finish(MessageSegment.image(Utils.text_to_image(str)))
+
+    async def test(
+        matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
+    ):
+        """测试用
+        """
+        
+        return

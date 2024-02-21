@@ -1,4 +1,4 @@
-from nonebot.adapters.onebot.v11 import GroupMessageEvent,bot
+from nonebot.adapters.onebot.v11 import GroupMessageEvent
 from nonebot import get_plugin_config
 
 import json
@@ -78,7 +78,7 @@ class Utils:
         
         try:
             qq_list = []
-            msg = json.loads(event.json())
+            msg = json.loads(event.model_dump_json())
             for i in msg['message']:
                 if i['type'] == 'at':
                     if 'all' not in str(i):
@@ -144,7 +144,7 @@ class Utils:
         skill_text = ""
         state_text = ""
         for i in user_data["skill"]:
-            if i[0] == 6 and i[1] >= time():
+            if i[0] == 6 and i[1] and i[1] >= time():
                 skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）（舰装损坏，{(int)(i[1] - time())}秒后修复）' + '；'
             else:
                 skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
@@ -191,11 +191,11 @@ class Utils:
                 DHandles.state_refresh(uid,i[0],i[1])
         new_state = data[uid]["state"]
         for i in range(len(data[uid]["state"])):
-            if i >= len(data[uid]["state"]) and not data[uid]["state"][i]:
-                break
-            if data[uid]["state"][i][1] <= time():
+            if i >= len(data[uid]["state"]):
+                i = len(data[uid]["state"]) - 1
+            if data[uid]["state"][i] and data[uid]["state"][i][1] <= time():
                 new_state.remove(data[uid]["state"][i])
-            if data[uid]["state"][i][0] == 1:
+            if data[uid]["state"][i] and data[uid]["state"][i][0] == 1:
                 if data[uid]["state"][i][1] > time():
                     b = True
                 else:
