@@ -18,7 +18,7 @@ __plugin_meta__ = PluginMetadata(
     supported_adapters={"~onebot.v11"}
 )
 
-__version__ = "1.2.7"
+__version__ = "1.2.8"
 
 on_yinpa_control = on_command(
     "yinpa_control",
@@ -117,10 +117,11 @@ on_yinpa_work = on_command(
     handlers=[yinpa_Handles.yinpa_work]
 )
 
-on_test = on_command(
-    "test",
-    priority=10,
-    block=False,
-    handlers=[yinpa_Handles.test]
-)
+# on_test = on_command(
+#     "test",
+#     permission=SUPERUSER | GROUP_ADMIN | GROUP_OWNER,
+#     priority=10,
+#     block=False,
+#     handlers=[yinpa_Handles.test]
+# )
 

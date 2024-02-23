@@ -1,5 +1,5 @@
-from nonebot.adapters.onebot.v11 import GroupMessageEvent
-from nonebot import get_plugin_config
+from nonebot.adapters.onebot.v11 import GroupMessageEvent,bot
+from nonebot import get_plugin_config,get_bots
 
 import json
 from random import randint,seed
@@ -78,7 +78,7 @@ class Utils:
         
         try:
             qq_list = []
-            msg = json.loads(event.model_dump_json())
+            msg = json.loads(event.json())
             for i in msg['message']:
                 if i['type'] == 'at':
                     if 'all' not in str(i):
@@ -190,17 +190,15 @@ class Utils:
             if len(i) <= 2:
                 DHandles.state_refresh(uid,i[0],i[1])
         new_state = data[uid]["state"]
-        for i in range(len(data[uid]["state"])):
-            if i >= len(data[uid]["state"]):
-                i = len(data[uid]["state"]) - 1
-            if data[uid]["state"][i] and data[uid]["state"][i][1] <= time():
-                new_state.remove(data[uid]["state"][i])
-            if data[uid]["state"][i] and data[uid]["state"][i][0] == 1:
-                if data[uid]["state"][i][1] > time():
+        for i in data[uid]["state"]:
+            if i[1] <= time():
+                new_state.remove(i)
+            if i[0] == 1:
+                if i[1] > time():
                     b = True
                 else:
                     DHandles.data_set(uid,'hp_v',(Utils.get_value(uid,'volition')[0] + 10) * 5)
-            elif data[uid]["state"][i][0] == 2 and data[uid]["state"][i][1] <= time():
+            elif i[0] == 2 and i[1] <= time():
                 DHandles.data_set(uid,'hp_v',(Utils.get_value(uid,'volition')[0] + 10) * 5)
                 DHandles.data_set(uid,'hp_c',(Utils.get_value(uid,'constitution')[0] + 10) * 10)
         DHandles.data_set(uid,"state",new_state)
@@ -210,6 +208,7 @@ class Utils:
             else:
                 DHandles.data_set(uid,'hp_c',data[uid]['hp_c'] + ((int)(((int)(time()) - (int)(data[uid]["last_refresh_time"])) / 60)) * Utils.get_regeneration_rate(uid))
         else:
+            DHandles.data_set(uid,'hp_c',(Utils.get_value(uid,'constitution')[0] + 10) * 10)
             if data[uid]['hp_v'] + (int)(((int)(time()) - (int)(data[uid]["last_refresh_time"])) / 60) >= (Utils.get_value(uid,'volition')[0] + 10) * 5:
                 DHandles.data_set(uid,'hp_v',(Utils.get_value(uid,'volition')[0] + 10) * 5)
             else:
@@ -529,3 +528,41 @@ class Utils:
         elif id == 11:
             str += DHandles.skill_refresh(uid,9,level = 1,mode = 'add')
         return str
+    
+    async def get_group_yinpa_list(bid: str,gid: int):
+        """获取群内加入银趴的成员
+
+        Args:
+            bid (str): bot的id
+            gid (int): 群的id
+
+        Returns:
+            list: 一个由群员id组成的列表
+        """
+        bot = get_bots()[bid]
+        gmdlist = await bot.call_api('get_group_member_list',group_id = gid)
+        gymlist = []
+        for i in gmdlist:
+            if data.get(i["user_id"]):
+                gymlist.append(i["user_id"])
+        return gymlist
+    
+    # def draw_rank_image(gid: int,uid: str):
+    #     image = Image.new("RGB",(512,1024),(255,255,255))
+    #     draw = ImageDraw.Draw(image)
+    #     linewidth = 24
+    #     for k in range(2):
+    #         for j in range(2):
+    #             tx = 28 + j * 256
+    #             ty = 28 + k * 512
+    #             for i in range(20):
+    #                 draw.line([(tx,ty + i * linewidth),(tx + 200,ty + i * linewidth)],(0,0,0),1)
+    #                 draw.line([(tx,ty + 512 + i * linewidth),(tx + 200,ty + 512 + i * linewidth)],(0,0,0),1)
+    #             for i in range(2):
+    #                 draw.line([(tx,ty + i * 512),(tx,ty + 456 + i * 512)],(0,0,0),1)
+    #                 draw.line([(tx + 100,ty + i * 512 + linewidth),(tx + 100,ty + 456 + i * 512)],(0,0,0),1)
+    #                 draw.line([(tx + 200,ty + i * 512),(tx + 200,ty + 456 + i * 512)],(0,0,0),1)
+    #     img = image.convert("RGB")
+    #     img_byte = BytesIO()
+    #     img.save(img_byte,"PNG")
+    #     return img_byte.getvalue()

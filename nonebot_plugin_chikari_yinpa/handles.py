@@ -630,10 +630,12 @@ class yinpa_Handles():
         str += "一小时内你将无法继续工作"
         await matcher.finish(MessageSegment.image(Utils.text_to_image(str)))
 
-    async def test(
-        matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
-    ):
-        """测试用
-        """
+    # async def test(
+    #     matcher: Matcher,event: GroupMessageEvent,args: Message = CommandArg()
+    # ):
+    #     """测试用
+    #     """
         
-        return
+    #     uid = event.get_user_id()
+    #     #await matcher.finish(await Utils.get_group_yinpa_list((str)(event.self_id),event.group_id))
+    #     await matcher.finish(MessageSegment.image(Utils.draw_rank_image(event.group_id,uid)))
