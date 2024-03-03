@@ -186,7 +186,6 @@ class DHandles():
                     data[uid]["state"][i].insert(2,level)
                 if data[uid]["state"][i][2] <= 0:
                     del data[uid]["state"][i]
-                    break
                 b = True
                 break
         if not b:
