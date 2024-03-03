@@ -145,9 +145,9 @@ class Utils:
         state_text = ""
         for i in user_data["skill"]:
             if i[0] == 6 and i[1] and i[1] >= time():
-                skill_text += "\n    " + dicts.skill_dict[i[0]] + f'（等级：{i[2]}）（舰装损坏，{(int)(i[1] - time())}秒后修复）' + '；'
+                skill_text += "\n    ——" + dicts.skill_dict[i[0]] + f'（等级：{i[2]}）（舰装损坏，{(int)(i[1] - time())}秒后修复）' + '；'
             else:
-                skill_text += "\n    " + dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
+                skill_text += "\n    ——" + dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
         if not skill_text:
             skill_text = '无'
         for i in user_data["state"]:
@@ -161,10 +161,10 @@ class Utils:
         f"    体质HP：{user_data['hp_c']}\n"\
         f"    长度：{user_data['penis_length']}\n"\
         f"    深度：{user_data['vagina_depth']}\n"\
-        f"    力量：{user_data['strength']}（当前：{Utils.get_value(uid,"strength")}）\n"\
-        f"    体质：{user_data['constitution']}（当前：{Utils.get_value(uid,"constitution")}）\n"\
-        f"    技巧：{user_data['technique']}（当前：{Utils.get_value(uid,"technique")}）\n"\
-        f"    意志：{user_data['volition']}（当前：{Utils.get_value(uid,"volition")}）\n"\
+        f"    力量：{user_data['strength']}（当前：{Utils.get_value(uid,'strength')[0]}）\n"\
+        f"    体质：{user_data['constitution']}（当前：{Utils.get_value(uid,'constitution')[0]}）\n"\
+        f"    技巧：{user_data['technique']}（当前：{Utils.get_value(uid,'technique')[0]}）\n"\
+        f"    意志：{user_data['volition']}（当前：{Utils.get_value(uid,'volition')[0]}）\n"\
         f"    智力：{user_data['intelligence']}\n"\
         f"    魅力：{user_data['charm']}\n"\
         f"    金钱：{user_data['money']}\n"\

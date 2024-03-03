@@ -5,7 +5,7 @@ with open("README.md", "r", encoding='utf-8') as fh:
 
 setuptools.setup(
     name="nonebot_plugin_chikari_yinpa",
-    version="1.3.0",
+    version="1.3.1",
     author="mrqx0195",
     author_email="2317249571@qq.com",
     description="A plugin for nonebot 2",
