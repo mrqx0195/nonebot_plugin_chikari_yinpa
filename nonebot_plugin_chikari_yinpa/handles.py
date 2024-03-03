@@ -277,44 +277,78 @@ class yinpa_Handles():
         atk_u = Utils.get_attack_list(uid,at) + [[pl,f"{data[uid]['name']}：长度"]]
         str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
-            if i[0] > 0:
-                str_u += f" + 1d{int(i[0])}（{i[1]}）"
-            elif i[0] < 0:
-                str_u += f" - 1d{-int(i[0])}（{i[1]}）"
+            if i[2]:
+                if i[0] > 0:
+                    str_u += f" + {int(i[0])}（{i[1]}）"
+                elif i[0] < 0:
+                    str_u += f" - {-int(i[0])}（{i[1]}）"
+            else:
+                if i[0] > 0:
+                    str_u += f" + 1d{int(i[0])}（{i[1]}）"
+                elif i[0] < 0:
+                    str_u += f" - 1d{-int(i[0])}（{i[1]}）"
         res_u = Utils.dice(50,uid)
         str_u += f" = {res_u}"
         for i in atk_u:
-            if i[0] > 0:
-                d = Utils.dice(int(i[0]),(int)(uid) ^ int(i[0]) ^ 101)
-                str_u += f" + {d}"
-                res_u += d
-            elif i[0] < 0:
-                d = Utils.dice(-int(i[0]),(int)(uid) ^ int(i[0]) ^ 102)
-                str_u += f" - {d}"
-                res_u -= d
+            if i[2]:
+                if i[0] > 0:
+                    str_u += f" + {int(i[0])}"
+                    res_u += int(i[0])
+                elif i[0] < 0:
+                    str_u += f" - {int(i[0])}"
+                    res_u -= int(i[0])
+            else:
+                if i[0] > 0:
+                    d = Utils.dice(int(i[0]),(int)(uid) ^ int(i[0]) ^ 101)
+                    str_u += f" + {d}"
+                    res_u += d
+                elif i[0] < 0:
+                    d = Utils.dice(-int(i[0]),(int)(uid) ^ int(i[0]) ^ 102)
+                    str_u += f" - {d}"
+                    res_u -= d
         str_u += f" = {res_u}\n"
+        if res_u <= 0:
+            res_u = 0
+            str_u += " = 0"
         vd = (int)(data[at]['vagina_depth']) * 4
         if vd >= 80:
             vd = 80 + sqrt(vd - 80)
         atk_t = Utils.get_attack_list(at,uid) + [[vd,f"{data[at]['name']}：深度"]]
         str_t = f"{data[uid]['name']}受到的伤害：1d50"
         for i in atk_t:
-            if i[0] > 0:
-                str_t += f" + 1d{int(i[0])}（{i[1]}）"
-            elif i[0] < 0:
-                str_t += f" - 1d{-int(i[0])}（{i[1]}）"
+            if i[2]:
+                if i[0] > 0:
+                    str_t += f" + {int(i[0])}（{i[1]}）"
+                elif i[0] < 0:
+                    str_t += f" - {-int(i[0])}（{i[1]}）"
+            else:
+                if i[0] > 0:
+                    str_t += f" + 1d{int(i[0])}（{i[1]}）"
+                elif i[0] < 0:
+                    str_t += f" - 1d{-int(i[0])}（{i[1]}）"
         res_t = Utils.dice(50,at)
         str_t += f" = {res_t}"
         for i in atk_t:
-            if i[0] > 0:
-                d = Utils.dice(int(i[0]),(int)(at) ^ int(i[0]) ^ 103)
-                str_t += f" + {d}"
-                res_t += d
-            elif i[0] < 0:
-                d = Utils.dice(-int(i[0]),(int)(at) ^ int(i[0]) ^ 104)
-                str_t += f" - {d}"
-                res_t -= d
+            if i[2]:
+                if i[0] > 0:
+                    str_t += f" + {int(i[0])}"
+                    res_t += int(i[0])
+                elif i[0] < 0:
+                    str_t += f" - {int(i[0])}"
+                    res_t -= int(i[0])
+            else:
+                if i[0] > 0:
+                    d = Utils.dice(int(i[0]),(int)(at) ^ int(i[0]) ^ 103)
+                    str_t += f" + {d}"
+                    res_t += d
+                elif i[0] < 0:
+                    d = Utils.dice(-int(i[0]),(int)(at) ^ int(i[0]) ^ 104)
+                    str_t += f" - {d}"
+                    res_t -= d
         str_t += f" = {res_t}"
+        if res_t <= 0:
+            res_t = 0
+            str_t += " = 0"
         hp_u = Utils.get_value(uid,"hp")
         hp_t = Utils.get_value(at,"hp")
         hp_str = f"HP： {hp_u[0]} → {hp_u[0] - res_t} "
@@ -373,44 +407,78 @@ class yinpa_Handles():
         atk_u = Utils.get_attack_list(uid,at) + [[vd,f"{data[uid]['name']}：深度"]]
         str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
-            if i[0] > 0:
-                str_u += f" + 1d{int(i[0])}（{i[1]}）"
-            elif i[0] < 0:
-                str_u += f" - 1d{-int(i[0])}（{i[1]}）"
+            if i[2]:
+                if i[0] > 0:
+                    str_u += f" + {int(i[0])}（{i[1]}）"
+                elif i[0] < 0:
+                    str_u += f" - {-int(i[0])}（{i[1]}）"
+            else:
+                if i[0] > 0:
+                    str_u += f" + 1d{int(i[0])}（{i[1]}）"
+                elif i[0] < 0:
+                    str_u += f" - 1d{-int(i[0])}（{i[1]}）"
         res_u = Utils.dice(50,uid)
         str_u += f" = {res_u}"
         for i in atk_u:
-            if i[0] > 0:
-                d = Utils.dice(int(i[0]),(int)(uid) ^ int(i[0]) ^ 101)
-                str_u += f" + {d}"
-                res_u += d
-            elif i[0] < 0:
-                d = Utils.dice(-int(i[0]),(int)(uid) ^ int(i[0]) ^ 102)
-                str_u += f" - {d}"
-                res_u -= d
+            if i[2]:
+                if i[0] > 0:
+                    str_u += f" + {int(i[0])}"
+                    res_u += int(i[0])
+                elif i[0] < 0:
+                    str_u += f" - {int(i[0])}"
+                    res_u -= int(i[0])
+            else:
+                if i[0] > 0:
+                    d = Utils.dice(int(i[0]),(int)(uid) ^ int(i[0]) ^ 101)
+                    str_u += f" + {d}"
+                    res_u += d
+                elif i[0] < 0:
+                    d = Utils.dice(-int(i[0]),(int)(uid) ^ int(i[0]) ^ 102)
+                    str_u += f" - {d}"
+                    res_u -= d
         str_u += f" = {res_u}\n"
+        if res_u <= 0:
+            res_u = 0
+            str_u += " = 0"
         pl = (int)(data[at]['penis_length']) * 4
         if pl >= 80:
             pl = 80 + sqrt(pl - 80)
         atk_t = Utils.get_attack_list(at,uid) + [[pl,f"{data[at]['name']}：长度"]]
         str_t = f"{data[uid]['name']}受到的伤害：1d50"
         for i in atk_t:
-            if i[0] > 0:
-                str_t += f" + 1d{int(i[0])}（{i[1]}）"
-            elif i[0] < 0:
-                str_t += f" - 1d{-int(i[0])}（{i[1]}）"
+            if i[2]:
+                if i[0] > 0:
+                    str_t += f" + {int(i[0])}（{i[1]}）"
+                elif i[0] < 0:
+                    str_t += f" - {-int(i[0])}（{i[1]}）"
+            else:
+                if i[0] > 0:
+                    str_t += f" + 1d{int(i[0])}（{i[1]}）"
+                elif i[0] < 0:
+                    str_t += f" - 1d{-int(i[0])}（{i[1]}）"
         res_t = Utils.dice(50,at)
         str_t += f" = {res_t}"
         for i in atk_t:
-            if i[0] > 0:
-                d = Utils.dice(int(i[0]),(int)(at) ^ int(i[0]) ^ 103)
-                str_t += f" + {d}"
-                res_t += d
-            elif i[0] < 0:
-                d = Utils.dice(-int(i[0]),(int)(at) ^ int(i[0]) ^ 104)
-                str_t += f" - {d}"
-                res_t -= d
+            if i[2]:
+                if i[0] > 0:
+                    str_t += f" + {int(i[0])}"
+                    res_t += int(i[0])
+                elif i[0] < 0:
+                    str_t += f" - {int(i[0])}"
+                    res_t -= int(i[0])
+            else:
+                if i[0] > 0:
+                    d = Utils.dice(int(i[0]),(int)(at) ^ int(i[0]) ^ 103)
+                    str_t += f" + {d}"
+                    res_t += d
+                elif i[0] < 0:
+                    d = Utils.dice(-int(i[0]),(int)(at) ^ int(i[0]) ^ 104)
+                    str_t += f" - {d}"
+                    res_t -= d
         str_t += f" = {res_t}"
+        if res_t <= 0:
+            res_t = 0
+            str_t += " = 0"
         hp_u = Utils.get_value(uid,"hp")
         hp_t = Utils.get_value(at,"hp")
         hp_str = f"HP： {hp_u[0]} → {hp_u[0] - res_t}"
@@ -588,23 +656,23 @@ class yinpa_Handles():
                 str += f" < {data[uid]['constitution']}\n"
         elif work_key == 6:
             d = Utils.dice(100,(int)(uid) ^ 102)
-            money += (d - 90) * 1000
+            money += (d - 80) * 500
             if money < 0:
                 money = 0
             str += f"你进行了工作：{dicts.work_dict[work_key]}\n收益：{money}\n"
             d = Utils.dice(10,(int)(uid) ^ 103)
             if d == 1:
                 d = Utils.dice(10,(int)(uid) ^ 104)
-                if d == 1:
+                if d >= 1 and d <= 1:
                     l = list(dicts.shop_dict.keys())
                     i = Utils.dice(len(l),(int)(uid) ^ 105)
                     str += Utils.gain_item(uid,l[i - 1])
-                elif d >= 2 and d <= 5:
+                elif d >= 2 and d <= 4:
                     l = list(dicts.state_dict.keys())
                     i = Utils.dice(len(l),(int)(uid) ^ 106)
                     d = Utils.dice(86400,(int)(uid) ^ 107)
                     str += DHandles.state_refresh(uid,i,time() + d,level = 1,mode = 'add')
-                elif d >= 6 and d <= 10:
+                elif d >= 5 and d <= 7:
                     i = Utils.dice(8,(int)(uid) ^ 108)
                     d = Utils.dice(100,(int)(uid) ^ 109) / 20
                     if i == 1:
@@ -625,6 +693,11 @@ class yinpa_Handles():
                         i = 'vagina_depth'
                     str += f"你的{dicts.attribute_dict[i]}： {data[uid][i]} → {data[uid][i] + d}\n"
                     DHandles.data_set(uid,i,(data[uid][i] + d))
+                elif d >= 8 and d <= 10:
+                    l = [10,11,12,13,14,15,]
+                    i = Utils.dice(len(l),(int)(uid) ^ 106)
+                    d = Utils.dice(86400,(int)(uid) ^ 107)
+                    str += DHandles.skill_refresh(uid,l[i - 1],level = 1,mode = 'add')
         DHandles.data_set(uid,"next_work_time",(time() + 3600))
         DHandles.data_set(uid,"money",data[uid]["money"] + money)
         str += "一小时内你将无法继续工作"

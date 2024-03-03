@@ -151,6 +151,8 @@ class DHandles():
                     data[uid]["skill"][i][2] = level
                 else:
                     data[uid]["skill"][i].insert(2,level)
+                if data[uid]["skill"][i][2] <= 0:
+                    del data[uid]["skill"][i]
                 b = True
                 break
         if not b:
@@ -182,6 +184,9 @@ class DHandles():
                     data[uid]["state"][i][2] = level
                 else:
                     data[uid]["state"][i].insert(2,level)
+                if data[uid]["state"][i][2] <= 0:
+                    del data[uid]["state"][i]
+                    break
                 b = True
                 break
         if not b:

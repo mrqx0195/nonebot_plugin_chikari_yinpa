@@ -57,7 +57,7 @@ class Utils:
 
         Args:
             d (int): 上限
-            _seed (_type_): 随机初始化种子
+            _seed (_type_): 随机数种子
 
         Returns:
             int: 值
@@ -145,9 +145,9 @@ class Utils:
         state_text = ""
         for i in user_data["skill"]:
             if i[0] == 6 and i[1] and i[1] >= time():
-                skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）（舰装损坏，{(int)(i[1] - time())}秒后修复）' + '；'
+                skill_text += "\n    " + dicts.skill_dict[i[0]] + f'（等级：{i[2]}）（舰装损坏，{(int)(i[1] - time())}秒后修复）' + '；'
             else:
-                skill_text += dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
+                skill_text += "\n    " + dicts.skill_dict[i[0]] + f'（等级：{i[2]}）' + '；'
         if not skill_text:
             skill_text = '无'
         for i in user_data["state"]:
@@ -161,10 +161,10 @@ class Utils:
         f"    体质HP：{user_data['hp_c']}\n"\
         f"    长度：{user_data['penis_length']}\n"\
         f"    深度：{user_data['vagina_depth']}\n"\
-        f"    力量：{user_data['strength']}\n"\
-        f"    体质：{user_data['constitution']}\n"\
-        f"    技巧：{user_data['technique']}\n"\
-        f"    意志：{user_data['volition']}\n"\
+        f"    力量：{user_data['strength']}（当前：{Utils.get_value(uid,"strength")}）\n"\
+        f"    体质：{user_data['constitution']}（当前：{Utils.get_value(uid,"constitution")}）\n"\
+        f"    技巧：{user_data['technique']}（当前：{Utils.get_value(uid,"technique")}）\n"\
+        f"    意志：{user_data['volition']}（当前：{Utils.get_value(uid,"volition")}）\n"\
         f"    智力：{user_data['intelligence']}\n"\
         f"    魅力：{user_data['charm']}\n"\
         f"    金钱：{user_data['money']}\n"\
@@ -233,7 +233,7 @@ class Utils:
                 s = i
             if len(i) <= 2:
                 DHandles.skill_refresh(uid,i[0],i[1])
-        if s and s[0] != 9 and Utils.get_state(uid,1):
+        if s and s[0] not in [9,10,11,12,13,14,15,] and Utils.get_state(uid,1):
             s = []
         return s
 
@@ -265,7 +265,7 @@ class Utils:
         
         b = True
         hour = localtime().tm_hour
-        if hour > 6 and hour <= 18:
+        if hour >= 6 and hour < 18:
             b = False
         return b
 
@@ -340,11 +340,15 @@ class Utils:
         elif key == 'technique':
             value = data[uid]['technique']
             value += Utils.vampire(uid)
+            if i := Utils.get_skill(uid,12) and Utils.is_night():
+                value += -20 * i[2]
         elif key == 'volition':
             value = data[uid]['volition']
             if i := Utils.boat(uid):
                 value += Utils.get_value(uid,'intelligence')[0] * sqrt(i[2])
             value += Utils.vampire(uid)
+            if i := Utils.get_skill(uid,12) and Utils.is_night():
+                value += -20 * i[2]
         elif key == 'intelligence':
             value = data[uid]['intelligence']
         elif key == 'charm':
@@ -366,22 +370,33 @@ class Utils:
         
         Utils.refresh_data(uid)
         Utils.refresh_data(target)
-        atk = [[Utils.get_value(uid,'technique')[0],f"{data[uid]['name']}：技巧"]]
+        atk = [[Utils.get_value(uid,'technique')[0],f"{data[uid]['name']}：技巧",False]]
         if i := Utils.get_skill(uid,2):
-            atk.append([30 * sqrt(i[2]),f"{data[uid]['name']}：猫化"])
+            atk.append([30 * sqrt(i[2]),f"{data[uid]['name']}：猫化",False])
         if i := Utils.get_skill(uid,3):
-            atk.append([Utils.get_value(uid,'intelligence')[0] / 2 * sqrt(i[2]),f"{data[uid]['name']}：自然之心"])
+            atk.append([Utils.get_value(uid,'intelligence')[0] / 2 * sqrt(i[2]),f"{data[uid]['name']}：自然之心",False])
         if i := Utils.get_skill(uid,5):
-            atk.append([80 * sqrt(i[2]),f"{data[uid]['name']}：淫纹"])
+            atk.append([80 * sqrt(i[2]),f"{data[uid]['name']}：淫纹",False])
         if i := Utils.get_state(uid,3):
-            atk.append([30 * sqrt(i[2]),f"{data[uid]['name']}：伟哥"])
+            atk.append([30 * sqrt(i[2]),f"{data[uid]['name']}：伟哥",False])
+        if i := Utils.get_skill(uid,11):
+            atk.append([60 * i[2],f"{data[uid]['name']}：亡命疯徒",False])
+        if i := Utils.get_skill(target,11):
+            atk.append([60 * i[2],f"{data[target]['name']}：亡命疯徒",False])
+        if i := Utils.get_skill(target,15):
+            if Utils.dice(100,i[2] * 15) <= i[2]:
+                atk.append([1000,f"{data[target]['name']}：弱点",True])
         
         if i := Utils.get_skill(target,2):
-            atk.append([-30 * sqrt(i[2]),f"{data[target]['name']}：猫化"])
+            atk.append([-30 * sqrt(i[2]),f"{data[target]['name']}：猫化",False])
         if i := Utils.get_skill(target,3):
-            atk.append([-Utils.get_value(uid,'intelligence')[0] / 2 * sqrt(i[2]),f"{data[target]['name']}：自然之心"])
+            atk.append([-Utils.get_value(uid,'intelligence')[0] / 2 * sqrt(i[2]),f"{data[target]['name']}：自然之心",False])
         if i := Utils.get_skill(target,4):
-            atk.append([-80 * sqrt(i[2]),f"{data[target]['name']}：圣体"])
+            atk.append([-80 * sqrt(i[2]),f"{data[target]['name']}：圣体",False])
+        if i := Utils.get_skill(uid,10):
+            atk.append([-50 * i[2],f"{data[uid]['name']}：呓语",False])
+        if i := Utils.get_skill(target,14):
+            atk.append([-50 * i[2],f"{data[target]['name']}：敏感",False])
         return atk
     
     def reduce_hp(uid: str,hp: int):
@@ -397,7 +412,7 @@ class Utils:
         
         str = ""
         if not Utils.get_state(uid,1):
-            DHandles.data_set(uid,'hp_v',Utils.get_value(uid,"hp")[0] - hp)
+            DHandles.data_set(uid,'hp_v',(int)(Utils.get_value(uid,"hp")[0] - hp))
             if data[uid]['hp_v'] <= 0:
                 d = Utils.dice(100,(int)(uid) ^ 10)
                 str += f"\n{data[uid]['name']}高潮了！\n意志检定：1d100 = {d}"
@@ -411,7 +426,7 @@ class Utils:
                     DHandles.data_set(uid,'hp_v',(d + 10) * 5)
                     str += f" < {data[uid]['volition']}\n{data[uid]['name']}的意志HP回复至{data[uid]['hp_v']}"
         else:
-            DHandles.data_set(uid,'hp_c',Utils.get_value(uid,"hp")[0] - hp)
+            DHandles.data_set(uid,'hp_c',(int)(Utils.get_value(uid,"hp")[0] - hp))
             DHandles.state_refresh(uid,1,Utils.get_state(uid,1)[1] + 60)
             if data[uid]['hp_c'] <= 0:
                 d = Utils.dice(100,(int)(uid) ^ 13)
@@ -482,6 +497,10 @@ class Utils:
         rr = 1
         if i := Utils.get_skill(uid,8):
             rr += 5 * i[2]
+        if i := Utils.get_skill(uid,13):
+            rr += -5 * i[2]
+        if rr < 0:
+            rr = 0
         return rr
     
     def gain_item(uid: str,id: int):
@@ -527,6 +546,11 @@ class Utils:
             str += DHandles.skill_refresh(uid,8,level = 1,mode = 'add')
         elif id == 11:
             str += DHandles.skill_refresh(uid,9,level = 1,mode = 'add')
+        elif id == 12:
+            l = [10,11,12,13,14,15,]
+            for i in l:
+                DHandles.skill_refresh(uid,i,level = 0)
+            str += "已清除所有诅咒"
         return str
     
     async def get_group_yinpa_list(bid: str,gid: int):
