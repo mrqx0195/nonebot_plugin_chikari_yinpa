@@ -274,7 +274,7 @@ class yinpa_Handles():
         pl = (int)(data[uid]['penis_length']) * 4
         if pl >= 80:
             pl = 80 + sqrt(pl - 80)
-        atk_u = Utils.get_attack_list(uid,at) + [[pl,f"{data[uid]['name']}：长度"]]
+        atk_u = Utils.get_attack_list(uid,at) + [[pl,f"{data[uid]['name']}：长度",False]]
         str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
             if i[2]:
@@ -313,7 +313,7 @@ class yinpa_Handles():
         vd = (int)(data[at]['vagina_depth']) * 4
         if vd >= 80:
             vd = 80 + sqrt(vd - 80)
-        atk_t = Utils.get_attack_list(at,uid) + [[vd,f"{data[at]['name']}：深度"]]
+        atk_t = Utils.get_attack_list(at,uid) + [[vd,f"{data[at]['name']}：深度",False]]
         str_t = f"{data[uid]['name']}受到的伤害：1d50"
         for i in atk_t:
             if i[2]:
@@ -404,7 +404,7 @@ class yinpa_Handles():
         vd = (int)(data[uid]['vagina_depth']) * 4
         if vd >= 80:
             vd = 80 + sqrt(vd - 80)
-        atk_u = Utils.get_attack_list(uid,at) + [[vd,f"{data[uid]['name']}：深度"]]
+        atk_u = Utils.get_attack_list(uid,at) + [[vd,f"{data[uid]['name']}：深度",False]]
         str_u = f"{data[at]['name']}受到的伤害：1d50"
         for i in atk_u:
             if i[2]:
@@ -443,7 +443,7 @@ class yinpa_Handles():
         pl = (int)(data[at]['penis_length']) * 4
         if pl >= 80:
             pl = 80 + sqrt(pl - 80)
-        atk_t = Utils.get_attack_list(at,uid) + [[pl,f"{data[at]['name']}：长度"]]
+        atk_t = Utils.get_attack_list(at,uid) + [[pl,f"{data[at]['name']}：长度",False]]
         str_t = f"{data[uid]['name']}受到的伤害：1d50"
         for i in atk_t:
             if i[2]:
