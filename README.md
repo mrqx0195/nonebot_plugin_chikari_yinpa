@@ -100,7 +100,20 @@ _✨ NoneBot 一个普通的银趴插件 ✨_
 | shop | 无 | 否 | 私聊/群聊 | 花费金钱购买商品 |
 | work | 无 | 否 | 私聊/群聊 | 工作，获得金钱及其他东西 |
 
-## 🥳 体验 & 预览图
-### 测试/体验群（QQ）：817078765
+## 🔭 TODO
+
+### 如果有什么好的想法，欢迎提交[issue](https://github.com/mrqx0195/nonebot_plugin_chikari_yinpa/issues)或[pr](https://github.com/mrqx0195/nonebot_plugin_chikari_yinpa/pulls)
+
+- [ ] 将经济相关拆分为单独的插件，未来可与其他插件互通
+
+- [ ] 排名功能（群榜，总榜）
+
+- [ ] 誓约系统
+
+- [ ] bot随机自主出击
+
+## 🥳 预览图
+
+（可能过时）
 
 ![image](image/img_1.png)
