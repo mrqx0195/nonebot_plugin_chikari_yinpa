@@ -711,4 +711,4 @@ class yinpa_Handles():
         
     #     uid = event.get_user_id()
     #     #await matcher.finish(await Utils.get_group_yinpa_list((str)(event.self_id),event.group_id))
-    #     await matcher.finish(MessageSegment.image(Utils.draw_rank_image(event.group_id,uid)))
+    #     await matcher.finish(MessageSegment.image(Utils.draw_rank_image(event.group_id,uid,(str)(event.self_id))))

@@ -2,7 +2,7 @@ from nonebot.adapters.onebot.v11 import GroupMessageEvent,bot
 from nonebot import get_plugin_config,get_bots
 
 import json
-from random import randint,seed
+from random import randint,seed,sample,choice
 from time import time,localtime
 from PIL import Image,ImageDraw,ImageFont
 from io import BytesIO
@@ -551,6 +551,100 @@ class Utils:
             for i in l:
                 DHandles.skill_refresh(uid,i,level = 0)
             str += "已清除所有诅咒"
+        elif id == 13:
+            l = data[uid]["skill"] + sample([[10,None,0],[11,None,0],[12,None,0],[13,None,0],[14,None,0],[15,None,0],],5)
+            sk = choice(l)
+            sk[2] = 0
+            for i in l:
+                sk[2] += i[2]
+            str += DHandles.skill_refresh(uid,sk[0],level = sk[2])
+        elif id == 13:
+            d = Utils.dice(10,13)
+            str += f"1d10 = {d}"
+            if d == 1:
+                d = Utils.dice(10,131)
+                str += f"1d10 = {d}\n长度：{data[uid]['penis_length']} → {data[uid]['penis_length'] + d * 0.1}"
+                DHandles.data_set(uid,'penis_length',data[uid]['penis_length'] + d * 0.1)
+            elif d == 2:
+                d = Utils.dice(10,132)
+                str += f"1d10 = {d}\n深度：{data[uid]['vagina_depth']} → {data[uid]['vagina_depth'] + d * 0.1}"
+                DHandles.data_set(uid,'vagina_depth',data[uid]['vagina_depth'] + d * 0.1)
+            elif d == 3:
+                d = Utils.dice(10,133)
+                str += f"1d10 = {d}\n力量：{data[uid]['strength']} → {data[uid]['strength'] + d}"
+                DHandles.data_set(uid,'strength',data[uid]['strength'] + d)
+            elif d == 4:
+                d = Utils.dice(10,134)
+                str += f"1d10 = {d}\n体质：{data[uid]['constitution']} → {data[uid]['constitution'] + d}"
+                DHandles.data_set(uid,'constitution',data[uid]['constitution'] + d)
+            elif d == 5:
+                d = Utils.dice(10,135)
+                str += f"1d10 = {d}\n技巧：{data[uid]['technique']} → {data[uid]['technique'] + d}"
+                DHandles.data_set(uid,'technique',data[uid]['technique'] + d)
+            elif d == 6:
+                d = Utils.dice(10,136)
+                str += f"1d10 = {d}\n意志：{data[uid]['volition']} → {data[uid]['volition'] + d}"
+                DHandles.data_set(uid,'volition',data[uid]['volition'] + d)
+            elif d == 7:
+                d = Utils.dice(10,137)
+                str += f"1d10 = {d}\n智力：{data[uid]['intelligence']} → {data[uid]['intelligence'] + d}"
+                DHandles.data_set(uid,'intelligence',data[uid]['intelligence'] + d)
+            elif d == 8:
+                d = Utils.dice(10,138)
+                str += f"1d10 = {d}\n魅力：{data[uid]['charm']} → {data[uid]['charm'] + d }"
+                DHandles.data_set(uid,'charm',data[uid]['charm'] + d)
+            elif d == 9:
+                d = Utils.dice(10,139)
+                str += f"1d10 = {d}\n金钱：{data[uid]['money']} → {data[uid]['money'] + d * 1000}"
+                DHandles.data_set(uid,'money',data[uid]['money'] + d * 1000)
+            elif d == 10:
+                d = Utils.dice(2,1310)
+                str += f"1d10 = {d}\n"
+                si = 1
+                if d == 1:
+                    si = 1
+                    str += "1d2 = 1（大成功）\n"
+                elif d == 2:
+                    si = -1
+                    str += "1d2 = 2（大失败）\n"
+                d = Utils.dice(9,1311)
+                str += f"1d9 = {d}\n"
+                if d == 1:
+                    d = Utils.dice(100,131)
+                    str += f"1d100 = {d}\n长度：{data[uid]['penis_length']} → {data[uid]['penis_length'] + d * 0.1 * si}"
+                    DHandles.data_set(uid,'penis_length',data[uid]['penis_length'] + d * 0.1 * si)
+                elif d == 2:
+                    d = Utils.dice(100,132)
+                    str += f"1d100 = {d}\n深度：{data[uid]['vagina_depth']} → {data[uid]['vagina_depth'] + d * 0.1 * si}"
+                    DHandles.data_set(uid,'vagina_depth',data[uid]['vagina_depth'] + d * 0.1 * si)
+                elif d == 3:
+                    d = Utils.dice(100,133)
+                    str += f"1d100 = {d}\n力量：{data[uid]['strength']} → {data[uid]['strength'] + d * si}"
+                    DHandles.data_set(uid,'strength',data[uid]['strength'] + d * si)
+                elif d == 4:
+                    d = Utils.dice(100,134)
+                    str += f"1d100 = {d}\n体质：{data[uid]['constitution']} → {data[uid]['constitution'] + d * si}"
+                    DHandles.data_set(uid,'constitution',data[uid]['constitution'] + d * si)
+                elif d == 5:
+                    d = Utils.dice(100,135)
+                    str += f"1d100 = {d}\n技巧：{data[uid]['technique']} → {data[uid]['technique'] + d * si}"
+                    DHandles.data_set(uid,'technique',data[uid]['technique'] + d * si)
+                elif d == 6:
+                    d = Utils.dice(100,136)
+                    str += f"1d100 = {d}\n意志：{data[uid]['volition']} → {data[uid]['volition'] + d * si}"
+                    DHandles.data_set(uid,'volition',data[uid]['volition'] + d * si)
+                elif d == 7:
+                    d = Utils.dice(100,137)
+                    str += f"1d100 = {d}\n智力：{data[uid]['intelligence']} → {data[uid]['intelligence'] + d * si}"
+                    DHandles.data_set(uid,'intelligence',data[uid]['intelligence'] + d * si)
+                elif d == 8:
+                    d = Utils.dice(100,138)
+                    str += f"1d100 = {d}\n魅力：{data[uid]['charm']} → {data[uid]['charm'] + d * si}"
+                    DHandles.data_set(uid,'charm',data[uid]['charm'] + d * si)
+                elif d == 9:
+                    d = Utils.dice(100,139)
+                    str += f"1d100 = {d}\n金钱：{data[uid]['money']} → {data[uid]['money'] + d * 1000 * si}"
+                    DHandles.data_set(uid,'money',data[uid]['money'] + d * 1000 * si)
         return str
     
     async def get_group_yinpa_list(bid: str,gid: int):
@@ -571,7 +665,10 @@ class Utils:
                 gymlist.append(i["user_id"])
         return gymlist
     
-    # def draw_rank_image(gid: int,uid: str):
+    # def draw_rank_image(gid: int,uid: str,bid: str,mode = ""):
+    #     gymlist = Utils.get_group_yinpa_list(bid,gid)
+        
+        
     #     image = Image.new("RGB",(512,1024),(255,255,255))
     #     draw = ImageDraw.Draw(image)
     #     linewidth = 24

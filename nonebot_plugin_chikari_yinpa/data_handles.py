@@ -143,7 +143,9 @@ class DHandles():
         global data
         b = False
         for i in range(len(data[uid]["skill"])):
-            if data[uid]["skill"][i][0] == id:
+            if data[uid]["skill"][i][2] <= 0:
+                del data[uid]["skill"][i]
+            elif data[uid]["skill"][i][0] == id:
                 data[uid]["skill"][i][1] = value
                 if len(data[uid]["skill"][i]) >= 3:
                     if mode == 'add':
@@ -151,8 +153,6 @@ class DHandles():
                     data[uid]["skill"][i][2] = level
                 else:
                     data[uid]["skill"][i].insert(2,level)
-                if data[uid]["skill"][i][2] <= 0:
-                    del data[uid]["skill"][i]
                 b = True
                 break
         if not b:
