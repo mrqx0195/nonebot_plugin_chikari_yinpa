@@ -103,7 +103,7 @@ class yinpa_Handles():
         })
         skill = []
         for i in dicts.species_initial_ability[species][6]:
-            skill.append([i,0])
+            skill.append([i,0,1])
         DHandles.data_set(uid,"skill",skill)
         obj = md5("Chikari`s salt".encode("utf-8"))
         obj.update(f"{uid}".encode("utf-8"))

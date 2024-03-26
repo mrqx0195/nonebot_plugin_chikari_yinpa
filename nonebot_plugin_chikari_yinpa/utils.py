@@ -383,6 +383,8 @@ class Utils:
             atk.append([60 * i[2],f"{data[uid]['name']}：亡命疯徒",False])
         if i := Utils.get_skill(target,11):
             atk.append([60 * i[2],f"{data[target]['name']}：亡命疯徒",False])
+        if i := Utils.get_skill(target,14):
+            atk.append([50 * i[2],f"{data[target]['name']}：敏感",False])
         if i := Utils.get_skill(target,15):
             if Utils.dice(100,i[2] * 15) <= i[2]:
                 atk.append([1000,f"{data[target]['name']}：弱点",True])
@@ -395,8 +397,6 @@ class Utils:
             atk.append([-80 * sqrt(i[2]),f"{data[target]['name']}：圣体",False])
         if i := Utils.get_skill(uid,10):
             atk.append([-50 * i[2],f"{data[uid]['name']}：呓语",False])
-        if i := Utils.get_skill(target,14):
-            atk.append([-50 * i[2],f"{data[target]['name']}：敏感",False])
         return atk
     
     def reduce_hp(uid: str,hp: int):
