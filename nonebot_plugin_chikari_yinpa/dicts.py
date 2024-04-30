@@ -7,7 +7,7 @@ class dicts():
         "":"Chikari_yinpa 模块帮助\n加入银趴：/yinpa_join <银趴昵称> <银趴种族>\n种族列表：/yinpa_help 种族\n技能列表：/yinpa_help 技能\n状态列表：/yinpa_help 状态\n查询个人信息：/info\n签到：/sign_in\n商店：/shop\n工作：/work",
         "help":"help\n命令：/help [参数]\n命令别称：/银趴帮助\n查询Chikari_yinpa的帮助",
         "sign_in":"sign_in\n命令：/sign_in\n命令别称：/签到 /打卡\n每日打卡，每天可使用一次，增加长度、深度、金钱",
-        "yinpa_join":"join_yinpa\n命令：/yinpa_join <银趴昵称> <银趴种族>\n命令别称：/加入银趴\n加入银趴！\n种族列表参照： /yinpa_help 种族",
+        "yinpa_join":"join_yinpa\n命令：/yinpa_join [银趴昵称] [银趴种族]\n命令别称：/加入银趴\n加入银趴！\n种族列表参照： /yinpa_help 种族\n昵称留空则直接使用群昵称\n种族留空则为随机种族",
         "yinpa_leave":"yinpa_leave\n命令：/yinpa_leave [key]\n命令别称：/离开银趴\n离开银趴！\n首次输入时会返回一个key码，需再次发送带key的命令才能离开",
         "yinpa_control":"yinpa_control\n命令：/yinpa_control <enable/disable>\n命令别称：/银趴控制\n控制本群银趴的开启/关闭",
         "info":"info\n命令：/info [@某人]\n命令别称：/信息 /查询\n查询自己或某人的银趴信息",

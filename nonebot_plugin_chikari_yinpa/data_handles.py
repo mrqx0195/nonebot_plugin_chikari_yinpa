@@ -18,7 +18,9 @@ with open(plugin_data_file,encoding='utf-8')as datafile:
     datastr = datafile.read()
     if not os.path.exists(plugin_data_file) or not datastr:
         f = open(plugin_data_file,'w')
-        init_data = {}
+        init_data = {
+            
+        }
         json.dump(init_data,f,indent=4)
         f.close
         data = init_data
@@ -70,6 +72,7 @@ class DHandles():
         """
         
         global data
+        DHandles.file_save()
         data[uid][key] = value
         DHandles.file_save()
         return
@@ -83,6 +86,7 @@ class DHandles():
         """
         
         global configdata
+        DHandles.file_save()
         configdata[key] = value
         DHandles.file_save()
         return
@@ -95,6 +99,7 @@ class DHandles():
         """
         
         global configdata
+        DHandles.file_save()
         configdata["yinpa_enabled_group"].remove(group_id)
         DHandles.file_save()
         return
@@ -108,6 +113,7 @@ class DHandles():
         """
         
         global data
+        DHandles.file_save()
         data[uid] = dict
         data[uid]["hp_v"] = (data[uid]["volition"] + 10) * 5
         data[uid]["hp_c"] = (data[uid]["constitution"] + 10) * 10
@@ -122,6 +128,7 @@ class DHandles():
         """
         
         global data
+        DHandles.file_save()
         del data[uid]
         DHandles.file_save()
         return

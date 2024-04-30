@@ -156,7 +156,7 @@ class Utils:
             state_text = '无'
         text = f"    ID：{uid}\n"\
         f"    昵称：{user_data['name']}\n"\
-        f"    种族：{user_data['species']}\n"\
+        f"    种族：{dicts.species_dict[user_data['species']]}\n"\
         f"    意志HP：{user_data['hp_v']}\n"\
         f"    体质HP：{user_data['hp_c']}\n"\
         f"    长度：{user_data['penis_length']}\n"\

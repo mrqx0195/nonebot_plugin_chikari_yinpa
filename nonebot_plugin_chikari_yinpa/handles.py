@@ -1,7 +1,7 @@
 from nonebot.adapters.onebot.v11 import GroupMessageEvent,Message,MessageSegment
 from nonebot.matcher import Matcher
 from nonebot.params import CommandArg
-from nonebot import get_driver,get_plugin_config
+from nonebot import get_driver,get_plugin_config,get_bots
 from time import time
 from hashlib import md5
 from math import sqrt
@@ -43,7 +43,7 @@ class yinpa_Handles():
             await matcher.finish("本群银趴已禁用")
         if not Utils.yinpa_user_presence_check(event.get_user_id()):
             await matcher.finish("您还未加入银趴！\ntips：请使用 /yinpa_join 或 /加入银趴 加入银趴")
-        uid: str=event.get_user_id()
+        uid: str = event.get_user_id()
         if data[uid]["last_sign_in_time"] < (int)(time() / 86400):
             DHandles.data_set(uid,"last_sign_in_time",(int)(time() / 86400))
             d_pl = Utils.dice(100,(int)(data[uid]['penis_length']) ^ 1)
@@ -67,15 +67,20 @@ class yinpa_Handles():
             await matcher.finish("本群银趴已禁用，你不准参加银趴！")
         if Utils.yinpa_user_presence_check(event.get_user_id()):
             await matcher.finish("您已加入银趴！\n如果想要重置银趴数据，请使用 /leave_yinpa 或 /离开银趴 离开银趴后再加入")
-        uid: str=event.get_user_id()
+        uid: str = event.get_user_id()
         command: str = args.extract_plain_text()
         arg_list: list = command.split()
         if not len(arg_list) == 2:
-            await matcher.finish("参数错误！\n格式： /yinpa_join <银趴昵称> <银趴种族> \n种族列表参照： /yinpa_help 种族 ")
-        if not arg_list[1].isdigit() or (int)(arg_list[1]) <= 0:
-            await matcher.finish("参数错误！\n种族应为一个正整数（种族编号）\n种族列表参照： /yinpa_help 种族 ")
-        name: str = arg_list[0]
-        species: int = (int)(arg_list[1])
+            bot = get_bots()[event.self_id]
+            name: str = bot.call_api("get_group_member_info",group_id = event.group_id,user_id = uid)["nickname"]
+        else:
+            name: str = arg_list[0]
+        if (int)(arg_list[1]) <= 0:
+            species: int = Utils.dice(7,event.get_user_id())
+        else:
+            if not arg_list[1].isdigit():
+                await matcher.finish("参数错误！\n种族应为一个正整数（种族编号）\n种族列表参照： /yinpa_help 种族 ")
+            species: int = (int)(arg_list[1])
         if not dicts.species_dict.get(species):
             await matcher.finish("参数错误！\n不存在指定的种族\n种族列表参照： /yinpa_help 种族 ")
         if Utils.find_user_name(name):
