@@ -72,7 +72,7 @@ class yinpa_Handles():
         arg_list: list = command.split()
         if not len(arg_list) == 2:
             bot = get_bots()[(str)(event.self_id)]
-            name: str = bot.call_api("get_group_member_info",group_id = event.group_id,user_id = uid)["nickname"]
+            name: str = await bot.call_api("get_group_member_info",group_id = event.group_id,user_id = uid)["nickname"]
         else:
             name: str = arg_list[0]
         if (int)(arg_list[1]) <= 0:
